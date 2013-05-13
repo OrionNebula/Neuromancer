@@ -28,7 +28,7 @@ public class Microphone {
     CaptureState state;
 
     /**
-     * Variable for the audios saved file type
+     * Variable for the audio's saved file type
      */
     private AudioFileFormat.Type fileType;
 

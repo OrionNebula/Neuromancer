@@ -1,12 +1,45 @@
+import java.io.*;
+
+import javax.sound.sampled.AudioFileFormat;
+
 import com.wolfram.alpha.*;
+import com.darkprograms.speech.microphone.*;
+import com.darkprograms.speech.recognizer.*;
 
 public class AlphaAPISample {
 	
     private static String appid = "LXY739-7LAEYLYV67";
 
     public static void main(String[] args) {
-
-        String input = "pi";
+    	
+    	Microphone theMicrophone = new Microphone(AudioFileFormat.Type.WAVE);
+    	try {
+			theMicrophone.captureAudioToFile("tmp.wav");
+			System.out.println("Begin Capture");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+    	String s = "";
+    	while(s==""){try{
+    	    BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+    	    s = bufferRead.readLine();
+    	}
+    	catch(IOException e)
+    	{
+    		e.printStackTrace();
+    	}}
+    	
+    	theMicrophone.close();
+    	System.out.println("End Capture");
+    	Recognizer theRecognizer = new Recognizer();
+    	
+        String input;
+		try {
+			input = theRecognizer.getRecognizedDataForWave("tmp.wav").getResponse();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			input = "";
+		}
         if (args.length > 0)
             input = args[0];
 
