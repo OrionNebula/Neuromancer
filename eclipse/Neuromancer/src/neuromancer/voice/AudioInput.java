@@ -1,7 +1,5 @@
 package neuromancer.voice;
 
-import java.io.*;
-
 import javax.sound.sampled.AudioFileFormat;
 
 import com.darkprograms.speech.microphone.Microphone;
@@ -12,9 +10,10 @@ public class AudioInput {
 	
 	public static void startInput(String toStore)
 	{
-		theMic = new Microphone(AudioFileFormat.Type.WAVE);
+		Microphone theMicrophone = new Microphone(AudioFileFormat.Type.WAVE);
+		theMic = theMicrophone;
     	try {
-			theMic.captureAudioToFile(toStore);
+			theMicrophone.captureAudioToFile("tmp.wav");
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

@@ -1,0 +1,66 @@
+package wintermute.wolfram;
+
+import com.wolfram.alpha.WAEngine;
+import com.wolfram.alpha.WAException;
+import com.wolfram.alpha.WAPlainText;
+import com.wolfram.alpha.WAPod;
+import com.wolfram.alpha.WAQuery;
+import com.wolfram.alpha.WAQueryResult;
+import com.wolfram.alpha.WASubpod;
+
+public class WolframObj {
+	
+	public String APIKey;
+	
+	public WolframObj(String APIKey)
+	{
+		this.APIKey = APIKey;
+	}
+	
+	public String[] getElement(String input, String elementParam) throws Exception
+	{
+		WAEngine engine = new WAEngine();
+
+        engine.setAppID(this.APIKey);
+        engine.addFormat("plaintext");
+
+        WAQuery query = engine.createQuery();
+        
+        query.setInput(input);
+        
+        String[] theResult = null;
+		
+		try {
+            
+            WAQueryResult queryResult = engine.performQuery(query);
+            
+            if (queryResult.isError()) {
+            } else if (!queryResult.isSuccess()) {
+                throw new Exception("NORESULT");
+            } else {
+                // Got a result.
+                for (WAPod pod : queryResult.getPods()) {
+                    if (!pod.isError()) {
+                        String currentElement = pod.getTitle();
+                        System.out.println(currentElement);
+                        for (WASubpod subpod : pod.getSubpods()) {
+                        	if(currentElement == elementParam)
+                        		theResult = new String[subpod.getContents().length];
+                        	int ID = 0;
+                            for (Object element : subpod.getContents()) {
+                                if (element instanceof WAPlainText && currentElement.equals(elementParam)) {
+                                	theResult[ID] = ((WAPlainText) element).getText();
+                                	ID++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }            
+        } catch (WAException e) {
+            e.printStackTrace();
+        }
+		return theResult;
+	}
+
+}

@@ -9,7 +9,7 @@ public class RawVoice {
 		Recognizer theRecognizer = new Recognizer();
         String input;
 		try {
-			input = theRecognizer.getRecognizedDataForWave(voiceData).getResponse();
+			input = theRecognizer.getRecognizedDataForWave("tmp.wav").getResponse();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			input = "";

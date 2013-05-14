@@ -6,7 +6,7 @@ import java.io.*;
 import javax.imageio.*;
 
 import org.apache.batik.transcoder.*;
-import org.apache.batik.transcoder.image.JPEGTranscoder;
+import org.apache.batik.transcoder.image.PNGTranscoder;
 import org.wikipedia.*;
 
 public class WikiObj {
@@ -69,13 +69,10 @@ public class WikiObj {
         BufferedImage image = null;
     	System.out.println(theImage.substring(theImage.length()-3, theImage.length()));
     	if(theImage.endsWith("svg")){
+    		System.out.println("svg to convert");
     		//It isn't so it must be converted
-    		// Create a JPEG transcoder
-            JPEGTranscoder t = new JPEGTranscoder();
-
-            // Set the transcoding hints.
-            t.addTranscodingHint(JPEGTranscoder.KEY_QUALITY,
-                                 new Float(.8));
+    		// Create a PNG transcoder
+            PNGTranscoder t = new PNGTranscoder();
 
             // Create the transcoder input.
             TranscoderInput input = new TranscoderInput(is);
@@ -83,14 +80,16 @@ public class WikiObj {
             // Create the transcoder output.
             OutputStream ostream = null;
 			try {
-				ostream = new FileOutputStream("out.jpg");
+				ostream = new FileOutputStream("out.png");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
             TranscoderOutput output = new TranscoderOutput(ostream);
             // Save the image.
             try {
+            	System.out.println("Begin transcode");
 				t.transcode(input, output);
+				System.out.println("End transcode");
 			} catch (TranscoderException e) {
 				e.printStackTrace();
 			}
@@ -103,7 +102,7 @@ public class WikiObj {
 				e.printStackTrace();
 			}
     		try {
-				image = ImageIO.read(new FileInputStream("out.jpg"));
+				image = ImageIO.read(new FileInputStream("out.png"));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -112,7 +111,9 @@ public class WikiObj {
     	}else{
     		//Already compatable, formatting for output
     		try {
+    			System.out.println("start read");
 				image = ImageIO.read(is);
+				System.out.println("end read");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}}

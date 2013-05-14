@@ -1,0 +1,28 @@
+package neuromancer.voice;
+
+import javax.sound.sampled.AudioFileFormat;
+
+import com.darkprograms.speech.microphone.Microphone;
+
+public class AudioInput {
+	
+	public static Microphone theMic = null;
+	
+	public static void startInput(String toStore)
+	{
+		Microphone theMicrophone = new Microphone(AudioFileFormat.Type.WAVE);
+		theMic = theMicrophone;
+    	try {
+			theMicrophone.captureAudioToFile("tmp.wav");
+			System.out.println("Begin Capture");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	public static void stopInput()
+	{
+		theMic.close();
+	}
+
+}

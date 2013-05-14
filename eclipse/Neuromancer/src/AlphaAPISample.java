@@ -12,6 +12,7 @@ import com.wolfram.alpha.*;
 import com.darkprograms.speech.microphone.*;
 import com.darkprograms.speech.recognizer.*;
 
+import neuromancer.voice.AudioInput;
 import neuromancer.voice.RawVoice;
 
 import org.w3c.dom.Document;
@@ -29,13 +30,26 @@ public class AlphaAPISample {
 
     public static void main(String[] args) {
     	
+    	    	AudioInput.startInput("tmp.wav");
+    	    	String s = "";
+    	    	while(s==""){try{
+    	    	    BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+    	    	    s = bufferRead.readLine();
+    	    	}
+    	    	catch(IOException e)
+    	    	{
+    	    		e.printStackTrace();
+    	    	}}
+    	    	AudioInput.stopInput();
+    	    	String input = RawVoice.getVoice("tmp.wav");
+
     	
-    	String input = RawVoice.getVoice("tmp.wav");
+    	
+    	//String input = RawVoice.getVoice("tmp.wav");
 
         WolframObj theWolfram = new WolframObj(appid);
         try {
-			for(String element : theWolfram.getElement(input, "Input interpretation"))
-			{
+			for(String element : theWolfram.getElement(input, "Solution")){
 				System.out.println(element);
 			}
 		} catch (Exception e1) {
@@ -51,30 +65,6 @@ public class AlphaAPISample {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Failure", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-    }
-    
-    public static BufferedImage svgToPNG(InputStream source) throws Exception
-    {
-    	// Create a JPEG transcoder
-        JPEGTranscoder t = new JPEGTranscoder();
-
-        // Set the transcoding hints.
-        t.addTranscodingHint(JPEGTranscoder.KEY_QUALITY,
-                             new Float(.8));
-
-        // Create the transcoder input.
-        TranscoderInput input = new TranscoderInput(source);
-
-        // Create the transcoder output.
-        OutputStream ostream = new FileOutputStream("out.jpg");
-        TranscoderOutput output = new TranscoderOutput(ostream);
-        // Save the image.
-        t.transcode(input, output);
-
-        // Flush and close the stream.
-        ostream.flush();
-        ostream.close();
-        return ImageIO.read(new FileInputStream("out.jpg"));
     }
 
 }

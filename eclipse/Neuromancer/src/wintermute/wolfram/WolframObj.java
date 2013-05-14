@@ -7,7 +7,6 @@ import com.wolfram.alpha.WAPod;
 import com.wolfram.alpha.WAQuery;
 import com.wolfram.alpha.WAQueryResult;
 import com.wolfram.alpha.WASubpod;
-import com.wolfram.alpha.visitor.Visitable;
 
 public class WolframObj {
 	
@@ -44,16 +43,16 @@ public class WolframObj {
                     if (!pod.isError()) {
                         String currentElement = pod.getTitle();
                         for (WASubpod subpod : pod.getSubpods()) {
-                        	theResult = new String[subpod.getContents().length];
+                        	if(currentElement.equals(elementParam))
+                        		theResult = new String[subpod.getContents().length];
                         	int ID = 0;
                             for (Object element : subpod.getContents()) {
-                                if (element instanceof WAPlainText) {
+                                if (element instanceof WAPlainText && currentElement.equals(elementParam)) {
                                 	theResult[ID] = ((WAPlainText) element).getText();
                                 	ID++;
                                 }
                             }
                         }
-                        System.out.println("");
                     }
                 }
             }            
