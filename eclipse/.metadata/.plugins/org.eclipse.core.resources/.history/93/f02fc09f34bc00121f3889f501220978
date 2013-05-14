@@ -1,0 +1,14 @@
+package wintermute.wikipedia;
+
+import org.wikipedia.*;
+
+public class WikiObj {
+	
+	public Wiki theWiki;
+	
+	public WikiObj(String wikiURL)
+	{
+		this.theWiki = new Wiki(wikiURL);
+	}
+
+}

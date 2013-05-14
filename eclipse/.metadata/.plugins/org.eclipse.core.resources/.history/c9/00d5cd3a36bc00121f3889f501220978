@@ -1,0 +1,107 @@
+package wintermute.wikipedia;
+
+import java.awt.image.BufferedImage;
+import java.io.*;
+
+import javax.imageio.*;
+
+import org.apache.batik.transcoder.*;
+import org.apache.batik.transcoder.image.JPEGTranscoder;
+import org.wikipedia.*;
+
+public class WikiObj {
+	
+	public Wiki theWiki;
+	
+	public WikiObj(String wikiURL)
+	{
+		this.theWiki = new Wiki(wikiURL);
+	}
+	
+	public String sectionContent(String pageName, int sectionID)
+	{
+		try {
+			return theWiki.getSectionText(pageName, sectionID);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public String[] rawImageList(String pageName)
+	{
+		try {
+			return theWiki.getImagesOnPage(pageName);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public BufferedImage getFormalImageByIndex(String pageName, int imageID)
+	{
+		InputStream is = null;
+		String theImage = null;
+		try {
+			theImage = theWiki.getImagesOnPage(pageName)[0];
+			is = new ByteArrayInputStream(theWiki.getImage(theImage));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        BufferedImage image = null;
+    	System.out.println(theImage.substring(theImage.length()-3, theImage.length()));
+    	if(theImage.endsWith("svg")){
+    		// Create a JPEG transcoder
+            JPEGTranscoder t = new JPEGTranscoder();
+
+            // Set the transcoding hints.
+            t.addTranscodingHint(JPEGTranscoder.KEY_QUALITY,
+                                 new Float(.8));
+
+            // Create the transcoder input.
+            TranscoderInput input = new TranscoderInput(pageName);
+
+            // Create the transcoder output.
+            OutputStream ostream = null;
+			try {
+				ostream = new FileOutputStream("out.jpg");
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            TranscoderOutput output = new TranscoderOutput(ostream);
+            // Save the image.
+            try {
+				t.transcode(input, output);
+			} catch (TranscoderException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+            // Flush and close the stream.
+            try {
+				ostream.flush();
+				ostream.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		try {
+				image = ImageIO.read(new FileInputStream("out.jpg"));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			};
+    	}else{
+    		try {
+				image = ImageIO.read(is);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}}
+    	return image;
+	}
+}

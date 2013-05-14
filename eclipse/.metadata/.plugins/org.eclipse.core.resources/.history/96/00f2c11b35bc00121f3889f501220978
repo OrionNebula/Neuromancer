@@ -1,0 +1,26 @@
+package wintermute.wikipedia;
+
+import java.io.IOException;
+
+import org.wikipedia.*;
+
+public class WikiObj {
+	
+	public Wiki theWiki;
+	
+	public WikiObj(String wikiURL)
+	{
+		this.theWiki = new Wiki(wikiURL);
+	}
+	
+	public String pageContent(String pageName, int sectionID)
+	{
+		try {
+			return theWiki.getSectionText(pageName, sectionID);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+}

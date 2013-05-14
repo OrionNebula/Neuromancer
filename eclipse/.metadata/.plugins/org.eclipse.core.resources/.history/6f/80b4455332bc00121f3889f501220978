@@ -18,8 +18,6 @@ import org.apache.batik.transcoder.*;
 import org.apache.batik.transcoder.image.JPEGTranscoder;
 import org.apache.batik.transcoder.svg2svg.SVGTranscoder;
 
-import wintermute.wikipedia.*;
-
 public class AlphaAPISample {
 	
     private static String appid = "LXY739-7LAEYLYV67";
@@ -99,10 +97,28 @@ public class AlphaAPISample {
             e.printStackTrace();
         }*/
         
-        WikiObj theWiki = new WikiObj("en.wikipedia.org");
-        System.out.println(theWiki.sectionContent(input,0).replace("[", "").replace("]", "").replace("{", "").replace("}", ""));
-        BufferedImage image = theWiki.getFormalImageByIndex(input, 0);
+        Wiki theWiki = new Wiki("en.wikipedia.org");
+        try {
+			System.out.println(theWiki.getSectionText(input,0).replace("[", "").replace("]", "").replace("{", "").replace("}", ""));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        InputStream is = null;
+        String theImage = null;
+		try {
+			theImage = theWiki.getImagesOnPage(input)[1];
+			is = new ByteArrayInputStream(theWiki.getImage(theImage));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         try{
+        	BufferedImage image = null;
+        	System.out.println(theImage.substring(theImage.length()-3, theImage.length()));
+        	if(theImage.endsWith("svg")){
+        		image = svgToPNG(is);
+        	}else{
+        		image = ImageIO.read(is);}
             JOptionPane.showMessageDialog(null, "", "", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
         } catch(Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage(), "Failure", JOptionPane.ERROR_MESSAGE);
