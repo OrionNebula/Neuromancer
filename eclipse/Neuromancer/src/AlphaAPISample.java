@@ -53,7 +53,7 @@ public class AlphaAPISample {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-        while(theAnswer.images.length < 1){}
+        while(theAnswer.imageURL == null){}
         BufferedImage simage = theAnswer.getImageByIndex(0);
         try{
             JOptionPane.showMessageDialog(null, "", "", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(simage));

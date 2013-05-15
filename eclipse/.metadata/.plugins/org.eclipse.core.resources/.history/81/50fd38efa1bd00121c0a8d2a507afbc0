@@ -1,0 +1,92 @@
+package wintermute.wolfram;
+
+import java.awt.image.*;
+import java.io.*;
+import java.util.HashMap;
+
+import javax.imageio.ImageIO;
+
+import com.wolfram.alpha.*;
+
+public class Solution {
+	
+	public String equation;
+	
+	public String[] solutions;
+	
+	public HashMap<Character,String> varSolutions = new HashMap<Character,String>();
+	
+	public File[] images;
+	
+	public Solution(WAImage[] imageParam, String[] solutions)
+	{
+		if(imageParam != null)
+		{
+			int num = 0;
+			for(WAImage element : imageParam)
+			{
+				if(element != null)
+					num++;
+			}
+			WAImage[] newImage = new WAImage[num];
+			int ID = 0;
+			for(WAImage element : imageParam)
+			{
+				if(element != null){
+					newImage[ID] = element;
+					ID++;
+				}
+					
+			}
+			imageParam = newImage;
+		}
+		
+		if(solutions != null)
+		{
+			int num = 0;
+			for(String element : solutions)
+			{
+				if(element != null)
+					num++;
+			}
+			String[] newSolutions = new String[num];
+			int ID = 0;
+			for(String element : solutions)
+			{
+				if(element != null){
+					newSolutions[ID] = element;
+					ID++;
+				}
+					
+			}
+			solutions = newSolutions;
+		}
+		
+		System.out.println(solutions);
+		System.out.println(imageParam);
+		int index = 0;
+		for(WAImage element : imageParam)
+		{
+			this.pushWAImageToIndex(element, index);
+			index++;
+		}
+		this.solutions = solutions;
+	}
+	
+	public BufferedImage getImageByIndex(int index)
+	{
+		try {
+			return ImageIO.read(images[index]);
+		} catch (IOException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public void pushWAImageToIndex(WAImage theImage, int index)
+	{
+		theImage.acquireImage();
+		images[index]=theImage.getFile();
+		System.out.println(images[index].exists());
+	}
+}

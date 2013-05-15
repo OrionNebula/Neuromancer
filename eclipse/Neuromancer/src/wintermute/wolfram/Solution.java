@@ -2,6 +2,8 @@ package wintermute.wolfram;
 
 import java.awt.image.*;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -16,42 +18,87 @@ public class Solution {
 	
 	public HashMap<Character,String> varSolutions = new HashMap<Character,String>();
 	
-	public File[] images;
+	public String[] imageURL;
 	
 	public Solution(WAImage[] imageParam, String[] solutions)
 	{
-		if(imageParam != null){
-			WAImage[] input = imageParam;
-			int i = input.length;
-			while (i-- > 0 && input[i] == null) {}
-	
-			WAImage[] output = new WAImage[i+1];
-			System.arraycopy(input, 0, output, 0, i+1);
-			imageParam = output;}
-		if(solutions != null){
-			String[] inputs = solutions;
-			int in = inputs.length;
-			while (in-- > 0 && inputs[in] == null) {}
-	
-			String[] outputs = new String[in+1];
-			System.arraycopy(inputs, 0, outputs, 0, in+1);
-			solutions = outputs;}
-		
-		System.out.println(solutions);
 		System.out.println(imageParam);
+		if(imageParam != null)
+		{
+			System.out.println("Not null");
+			int num = 0;
+			for(WAImage element : imageParam)
+			{
+				System.out.println("Element");
+				if(element != null)
+					num++;
+			}
+			WAImage[] newImage = new WAImage[num];
+			int ID = 0;
+			for(WAImage element : imageParam)
+			{
+				System.out.println("New Element");
+				if(element != null){
+					newImage[ID] = element;
+					ID++;
+				}
+					
+			}
+			System.out.println(newImage.length);
+			imageParam = newImage;
+			System.out.println(imageParam.length);
+		}
+		
+		if(solutions != null)
+		{
+			int num = 0;
+			for(String element : solutions)
+			{
+				if(element != null)
+					num++;
+			}
+			String[] newSolutions = new String[num];
+			int ID = 0;
+			for(String element : solutions)
+			{
+				if(element != null){
+					newSolutions[ID] = element;
+					ID++;
+				}
+					
+			}
+			solutions = newSolutions;
+		}
+		if(solutions != null && solutions.length != 0)
+			System.out.println(solutions[0]);
+		if(solutions != null && imageParam.length != 0)
+			System.out.println(imageParam[0].getURL());
 		int index = 0;
+		if(imageParam != null && imageParam.length != 0){
+			this.imageURL = new String[imageParam.length];
+			System.out.println(imageParam.length);
 		for(WAImage element : imageParam)
 		{
 			this.pushWAImageToIndex(element, index);
 			index++;
-		}
+		}}
 		this.solutions = solutions;
 	}
 	
 	public BufferedImage getImageByIndex(int index)
 	{
+		InputStream input = null;
 		try {
-			return ImageIO.read(images[index]);
+			input = new URL(imageURL[index]).openStream();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			return ImageIO.read(input);
 		} catch (IOException e){
 			e.printStackTrace();
 			return null;
@@ -60,8 +107,6 @@ public class Solution {
 	
 	public void pushWAImageToIndex(WAImage theImage, int index)
 	{
-		theImage.acquireImage();
-		images[index]=theImage.getFile();
-		System.out.println(images[index].exists());
+		imageURL[index]=theImage.getURL();
 	}
 }

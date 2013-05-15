@@ -83,7 +83,7 @@ public class WolframObj {
                     if (!pod.isError()) {
                         String currentElement = pod.getTitle();
                         for (WASubpod subpod : pod.getSubpods()) {
-                        	if(currentElement.startsWith("Result") || currentElement.startsWith("Solution")){
+                        	if(currentElement.startsWith("Result") || currentElement.startsWith("Solution") || currentElement.startsWith("Plot")){
                         		theResult = new String[subpod.getContents().length];
                         		images = new WAImage[subpod.getContents().length];}
                         	int ID = 0;
@@ -92,7 +92,7 @@ public class WolframObj {
                                 	theResult[ID] = ((WAPlainText) element).getText();
                                 	ID++;
                                 }
-                                if (element instanceof WAImage && (currentElement.startsWith("Result") || currentElement.startsWith("Solution"))) {
+                                if (element instanceof WAImage && (currentElement.startsWith("Plot"))) {
                                 	images[ID] = ((WAImage) element);
                                 	ID++;
                                 }
