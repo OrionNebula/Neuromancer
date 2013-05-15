@@ -46,21 +46,15 @@ public class AlphaAPISample {
     	
     	
     	//String input = RawVoice.getVoice("tmp.wav");
-    	    	Solution theAnswer = null;
+
         WolframObj theWolfram = new WolframObj(appid);
         try {
-			theAnswer = theWolfram.getSolution(input);
+			for(String element : theWolfram.getElement(input, "Result")){
+				System.out.println(element);
+			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-        while(theAnswer.images.length < 1){}
-        BufferedImage simage = theAnswer.getImageByIndex(0);
-        try{
-            JOptionPane.showMessageDialog(null, "", "", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(simage));
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Failure", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
         
         WikiObj theWiki = new WikiObj("en.wikipedia.org");
         System.out.println(theWiki.sectionContent(input,0).replace("[", "").replace("]", "").replace("{", "").replace("}", ""));

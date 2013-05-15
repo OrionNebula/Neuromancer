@@ -104,7 +104,7 @@ public class WolframObj {
         } catch (WAException e) {
             e.printStackTrace();
         }
-		return new Solution(images, theResult);
+		return null;
 	}
 
 }

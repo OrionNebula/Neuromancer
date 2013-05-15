@@ -1,0 +1,26 @@
+package wintermute.wolfram;
+
+import java.awt.image.*;
+import java.io.*;
+
+import javax.imageio.ImageIO;
+
+public class Solution {
+	
+	public String equation;
+	
+	public String[] solutions;
+	
+	public File[] images;
+	
+	public BufferedImage getImageByIndex(int index)
+	{
+		try {
+			return ImageIO.read(images[index]);
+		} catch (IOException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+}

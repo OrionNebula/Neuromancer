@@ -1,0 +1,35 @@
+package wintermute.wolfram;
+
+import java.awt.image.*;
+import java.io.*;
+import java.util.HashMap;
+
+import javax.imageio.ImageIO;
+
+import com.wolfram.alpha.*;
+
+public class Solution {
+	
+	public String equation;
+	
+	public String[] solutions;
+	
+	public HashMap<Character,String> varSolutions = new HashMap<Character,String>();
+	
+	public File[] images;
+	
+	public BufferedImage getImageByIndex(int index)
+	{
+		try {
+			return ImageIO.read(images[index]);
+		} catch (IOException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public void pushWAImageToIndex(WAImage theImage, int index)
+	{
+		images[index]=theImage.getFile();
+	}
+}

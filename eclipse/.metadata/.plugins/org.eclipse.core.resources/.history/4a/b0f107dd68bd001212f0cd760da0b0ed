@@ -1,0 +1,64 @@
+package wintermute.wolfram;
+
+import java.awt.image.*;
+import java.io.*;
+import java.util.HashMap;
+
+import javax.imageio.ImageIO;
+
+import com.wolfram.alpha.*;
+
+public class Solution {
+	
+	public String equation;
+	
+	public String[] solutions;
+	
+	public HashMap<Character,String> varSolutions = new HashMap<Character,String>();
+	
+	public File[] images;
+	
+	public Solution(WAImage[] imageParam, String[] solutions)
+	{
+		if(imageParam != null){
+			WAImage[] input = imageParam;
+			int i = input.length;
+			while (i-- > 0 && input[i] == null) {}
+	
+			WAImage[] output = new WAImage[i+1];
+			System.arraycopy(input, 0, output, 0, i+1);
+			imageParam = output;}
+		if(solutions != null){
+			String[] inputs = solutions;
+			int in = inputs.length;
+			while (in-- > 0 && inputs[in] == null) {}
+	
+			String[] outputs = new String[in+1];
+			System.arraycopy(inputs, 0, outputs, 0, in+1);
+			solutions = outputs;}
+		
+		System.out.println(solutions);
+		System.out.println(imageParam);
+		int index = 0;
+		for(WAImage element : imageParam)
+		{
+			this.pushWAImageToIndex(element, index);
+			index++;
+		}
+	}
+	
+	public BufferedImage getImageByIndex(int index)
+	{
+		try {
+			return ImageIO.read(images[index]);
+		} catch (IOException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public void pushWAImageToIndex(WAImage theImage, int index)
+	{
+		images[index]=theImage.getFile();
+	}
+}
