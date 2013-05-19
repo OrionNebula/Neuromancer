@@ -1,28 +1,10 @@
-import java.awt.image.*;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Random;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-import javax.imageio.*;
-import javax.sound.sampled.AudioFileFormat;
-import javax.swing.*;
+import neuromancer.voice.*;
 
-import com.wolfram.alpha.*;
-import com.darkprograms.speech.microphone.*;
-import com.darkprograms.speech.recognizer.*;
 
-import neuromancer.voice.AudioInput;
-import neuromancer.voice.RawVoice;
-
-import org.w3c.dom.Document;
-import org.wikipedia.*;
-import org.apache.batik.transcoder.*;
-import org.apache.batik.transcoder.image.JPEGTranscoder;
-import org.apache.batik.transcoder.svg2svg.SVGTranscoder;
-
-import wintermute.wikipedia.*;
-import wintermute.wolfram.*;
 
 public class AlphaAPISample {
 	
@@ -42,10 +24,12 @@ public class AlphaAPISample {
     	    	}}
     	    	AudioInput.stopInput();
     	    	String input = RawVoice.getVoice("tmp.wav");
-
+    	    	System.out.println(input);
+    	    	SpeechSynthesis theSpeech = new SpeechSynthesis();
+    	    	
+    	    	theSpeech.speek(input);
     	
-    	
-    	//String input = RawVoice.getVoice("tmp.wav");
+    	/*//String input = RawVoice.getVoice("tmp.wav");
     	    	Solution theAnswer = null;
         WolframObj theWolfram = new WolframObj(appid);
         try {
@@ -70,7 +54,7 @@ public class AlphaAPISample {
         } catch(Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage(), "Failure", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
-        }
+        }*/
     }
 
 }

@@ -1,0 +1,27 @@
+package neuromancer.voice;
+
+import java.io.IOException;
+
+public class SpeechSynthesis {
+	
+	public String exePath = "C:\\Program Files (x86)\\eSpeak\\command_line\\espeak.exe";
+	
+	public SpeechSynthesis(String exePath)
+	{
+		this.exePath = exePath;
+	}
+	
+	public SpeechSynthesis()
+	{
+	}
+	
+	public void speek(String textToSay)
+	{
+		try {
+			Process p = Runtime.getRuntime().exec(this.exePath+" \""+textToSay+"\"");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+}

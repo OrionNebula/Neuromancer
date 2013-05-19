@@ -1,0 +1,16 @@
+package neuromancer.voice;
+
+public class SpeechSynthesis {
+	
+	public String exePath = "C:\\Program Files (x86)\\eSpeak\\command_line\\espeak.exe";
+	
+	public SpeechSynthesis(String exePath)
+	{
+		this.exePath = exePath;
+	}
+	
+	public SpeechSynthesis()
+	{
+	}
+
+}
