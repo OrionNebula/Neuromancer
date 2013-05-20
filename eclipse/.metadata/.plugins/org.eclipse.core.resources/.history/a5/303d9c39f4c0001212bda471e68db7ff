@@ -1,0 +1,46 @@
+package wintermute.echonest;
+
+import com.darkprograms.speech.microphone.Microphone;
+import com.echonest.api.v4.EchoNestAPI;
+import com.echonest.api.v4.EchoNestException;
+import com.echonest.api.v4.TimedEvent;
+import com.echonest.api.v4.Track;
+import com.echonest.api.v4.TrackAnalysis;
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+
+import neuromancer.voice.AudioInput;
+
+/**
+ * This example will demonstrate uploading an MP3, analyzing it and getting the
+ * audio summary and the timing info for all of the beats
+ *
+ * @author plamere
+ */
+public class MusicAnalysis {
+
+    public static Track identify(String filename) throws EchoNestException {
+        EchoNestAPI en = new EchoNestAPI("BAIFFSSHGTHSZNWRQ");
+
+        File file = new File(filename);
+
+        if (!file.exists()) {
+            System.err.println("Can't find " + filename);
+        } else {
+
+            try {
+                Track track = en.uploadTrack(file, false);
+                track.waitForAnalysis(30000);
+                if (track.getStatus() == Track.AnalysisStatus.COMPLETE) {
+                	return track;
+                } else {
+                    System.err.println("Trouble analysing track " + track.getStatus());
+                }
+            } catch (IOException e) {
+                System.err.println("Trouble uploading file");
+            }
+
+        }
+    }
+}

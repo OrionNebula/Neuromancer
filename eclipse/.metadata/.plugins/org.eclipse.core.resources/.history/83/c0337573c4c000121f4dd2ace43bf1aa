@@ -1,0 +1,20 @@
+package wintermute.core;
+
+import java.util.HashMap;
+
+import wintermute.wolfram.*;
+import wintermute.wikipedia.*;
+
+public class Wintermute {
+	
+	public String apiKey = "LXY739-7LAEYLYV67";
+	public WolframObj theWolfram;
+	public HashMap<String, WikiObj> wikiList = new HashMap<String, WikiObj>();
+	
+	public Wintermute()
+	{
+		this.theWolfram = new WolframObj(this.apiKey);
+		wikiList.put("wikipedia", new WikiObj("en.wikipedia.org"));
+	}
+
+}

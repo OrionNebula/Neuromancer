@@ -15,9 +15,10 @@ public class SpeechSynthesis {
 	{
 	}
 	
-	public void speek(String textToSay)
+	public void speak(String textToSay)
 	{
 		try {
+			@SuppressWarnings("unused")
 			Process p = Runtime.getRuntime().exec(this.exePath+" \""+textToSay+"\"");
 		} catch (IOException e) {
 			e.printStackTrace();

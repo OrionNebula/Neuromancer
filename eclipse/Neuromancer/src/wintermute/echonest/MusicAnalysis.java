@@ -1,0 +1,34 @@
+package wintermute.echonest;
+
+import java.io.File;
+import java.io.IOException;
+
+import com.echonest.api.v4.*;
+
+public class MusicAnalysis {
+
+    public static Track identify(String filename) throws EchoNestException {
+        EchoNestAPI en = new EchoNestAPI("BAIFFSSHGTHSZNWRQ");
+
+        File file = new File(filename);
+
+        if (!file.exists()) {
+            System.err.println("Can't find " + filename);
+        } else {
+
+            try {
+                Track track = en.uploadTrack(file, false);
+                track.waitForAnalysis(30000);
+                if (track.getStatus() == Track.AnalysisStatus.COMPLETE) {
+                	return track;
+                } else {
+                    System.err.println("Trouble analysing track " + track.getStatus());
+                }
+            } catch (IOException e) {
+                System.err.println("Trouble uploading file");
+            }
+
+        }
+		return null;
+    }
+}

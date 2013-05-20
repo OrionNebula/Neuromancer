@@ -1,0 +1,16 @@
+package wintermute.core;
+
+import wintermute.wolfram.*;
+import wintermute.wikipedia.*;
+
+public class Wintermute {
+	
+	public WolframObj theWolfram;
+	public WikiObj theWikipedia;
+	
+	public Wintermute()
+	{
+		
+	}
+
+}

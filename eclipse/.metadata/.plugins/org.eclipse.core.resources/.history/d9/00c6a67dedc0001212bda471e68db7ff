@@ -1,0 +1,16 @@
+package neuromancer.core;
+
+import java.applet.Applet;
+
+import wintermute.core.Wintermute;
+
+public class Neuromancer extends Applet {
+	
+	public Wintermute wintermute = new Wintermute();
+	
+	public static void main(String[] args) 
+	{
+		
+	}
+
+}

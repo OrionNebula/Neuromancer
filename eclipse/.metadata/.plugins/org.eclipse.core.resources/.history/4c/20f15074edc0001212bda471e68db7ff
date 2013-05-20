@@ -1,0 +1,12 @@
+package neuromancer.core;
+
+public class Neuromancer {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		
+	}
+
+}

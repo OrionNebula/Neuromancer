@@ -1,0 +1,23 @@
+package neuromancer.core;
+
+import java.applet.Applet;
+import java.awt.*;
+
+import wintermute.core.Wintermute;
+
+public class Neuromancer extends Applet {
+	
+	private static final long serialVersionUID = 1L;
+	public Wintermute wintermute = new Wintermute();
+	
+	public void init()
+	{
+		this.setSize(640, 480);
+	}
+	
+	public void paint(Graphics g)
+	{
+		this.setSize(640, 480);
+	}
+
+}
