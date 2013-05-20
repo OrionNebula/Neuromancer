@@ -20,11 +20,10 @@ public class Neuromancer extends Applet {
 		this.setSize(640, 480);
 		speechThread = (new SpeechThread());
 		speechThread.start();
-		Calendar cal = Calendar.getInstance();
-		if(cal.getTime().getHours() <= 12)
-			speechThread.speak("The time is now "+cal.getTime().getHours() + ":" + cal.getTime().getMinutes()+".");
+		if(Calendar.getInstance().getTime().getHours() <= 12)
+			speechThread.speak("The time is now "+Calendar.getInstance().getTime().getHours() + " " + Calendar.getInstance().getTime().getMinutes()+".");
 		else
-			speechThread.speak("The time is now "+(cal.getTime().getHours()-12) + ":" + cal.getTime().getMinutes()+".");
+			speechThread.speak("The time is now "+(Calendar.getInstance().getTime().getHours()-12) + " " + Calendar.getInstance().getTime().getMinutes()+".");
 	}
 	
 	public void paint(Graphics g)
