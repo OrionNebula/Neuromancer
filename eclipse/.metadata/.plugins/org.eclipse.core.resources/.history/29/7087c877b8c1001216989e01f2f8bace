@@ -1,0 +1,70 @@
+package neuromancer.core;
+
+import java.applet.Applet;
+import java.awt.Graphics;
+
+import neuromancer.voice.SpeechThread;
+import wintermute.core.Wintermute;
+
+public class Neuromancer extends Applet {
+	
+	private static final long serialVersionUID = 1L;
+	public Wintermute wintermute = new Wintermute();
+	public SpeechThread speechThread;
+	
+	public void init()
+	{
+		this.setSize(640, 480);
+		speechThread = (new SpeechThread());
+		speechThread.start();
+		//speechThread.speakTime();
+		wintermute.addWikiByName("minecraftwiki", "");
+		/*PrintWriter out = null;
+		try {
+			out = new PrintWriter("tmp.txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		out.println(wintermute.wikiList.get("minecraftwiki").sectionContent("The Overworld", 0).replace("'", "").replace("[", "").replace("]", ""));*/
+		String revise = wintermute.wikiList.get("minecraftwiki").sectionContent("Bone Meal", 0).replace("'", "").replace("\"","");
+		while(revise.contains("[") || revise.contains("]"))
+		{
+			if(revise.substring(0, revise.indexOf("]]")).contains("[[")){
+				String subRevise = revise.substring(revise.indexOf("[[")+2, revise.indexOf("]]"))/*.replace("[", "").replace("]", "")*/;
+				if(subRevise.contains("|") && subRevise.indexOf("|") == subRevise.lastIndexOf("|"))
+				{
+					String goodRevise = subRevise.substring(subRevise.indexOf("|")).replace("|", "");
+					revise = revise.replace("[["+subRevise+"]]", goodRevise);
+				}else
+				if(subRevise.indexOf("|") == subRevise.lastIndexOf("|"))
+				{
+					revise = revise.replace("[["+subRevise+"]]", subRevise);
+				}else
+				{
+					revise = revise.replace("[["+subRevise+"]]", "");
+				}
+			}else
+			{
+				revise = revise.substring(revise.indexOf("]]")+2);
+			}
+		}
+		while(revise.contains("{") || revise.contains("}"))
+		{
+			if(revise.substring(0, revise.indexOf("}}")).contains("{{")){
+				String subRevise = revise.substring(revise.indexOf("{{")+2, revise.indexOf("}}"))/*.replace("[", "").replace("]", "")*/;
+				revise = revise.replace("{{"+subRevise+"}}", subRevise);
+			}else
+			{
+				revise = revise.substring(revise.indexOf("}}")+2);
+			}
+		}
+		speechThread.speak(revise.replace("'", "").replace("[", "").replace("]", "").replace("\"", ""));
+	}
+	
+	public void paint(Graphics g)
+	{
+		
+	}
+
+}

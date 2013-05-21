@@ -1,0 +1,39 @@
+package neuromancer.core;
+
+import java.applet.Applet;
+import java.awt.*;
+import java.io.IOException;
+
+import neuromancer.voice.*;
+
+import wintermute.core.Wintermute;
+import wintermute.google.Search;
+
+public class Neuromancer extends Applet {
+	
+	private static final long serialVersionUID = 1L;
+	public Wintermute wintermute = new Wintermute();
+	public SpeechThread speechThread;
+	
+	public void init()
+	{
+		this.setSize(640, 480);
+		speechThread = (new SpeechThread());
+		speechThread.start();
+		//speechThread.speakTime();
+		wintermute.addWikiByName("bulbapedia");
+		
+		try {
+			speechThread.speak(wintermute.wikiList.get("bulbapedia").theWiki.getPageText("Glitch Pokemon"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void paint(Graphics g)
+	{
+		
+	}
+
+}

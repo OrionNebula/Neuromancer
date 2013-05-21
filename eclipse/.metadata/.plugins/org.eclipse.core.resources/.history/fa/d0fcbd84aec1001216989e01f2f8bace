@@ -1,0 +1,43 @@
+package neuromancer.core;
+
+import java.applet.Applet;
+import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
+import neuromancer.voice.*;
+
+import wintermute.core.Wintermute;
+
+public class Neuromancer extends Applet {
+	
+	private static final long serialVersionUID = 1L;
+	public Wintermute wintermute = new Wintermute();
+	public SpeechThread speechThread;
+	
+	public void init()
+	{
+		this.setSize(640, 480);
+		speechThread = (new SpeechThread());
+		speechThread.start();
+		//speechThread.speakTime();
+		wintermute.addWikiByName("minecraftwiki", "");
+		/*PrintWriter out = null;
+		try {
+			out = new PrintWriter("tmp.txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		out.println(wintermute.wikiList.get("minecraftwiki").sectionContent("The Overworld", 0).replace("'", "").replace("[", "").replace("]", ""));*/
+		String revise = wintermute.wikiList.get("minecraftwiki").sectionContent("The Overworld", 0);
+		revise.replaceAll("(?i)(\\[\\[.*?|)(.+?)(\\]\\])", "$1");
+		speechThread.speak(revise.replace("[[","[").replace("]]", "]").replace("'", "").replaceAll("\\[[^|]*|", "").replace("[", "").replace("]", "").replace("\"", ""));
+	}
+	
+	public void paint(Graphics g)
+	{
+		
+	}
+
+}

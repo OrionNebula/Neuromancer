@@ -1,11 +1,9 @@
 package neuromancer.core;
 
 import java.applet.Applet;
-import java.awt.*;
-import java.util.Calendar;
+import java.awt.Graphics;
 
-import neuromancer.voice.*;
-
+import neuromancer.voice.SpeechThread;
 import wintermute.core.Wintermute;
 
 public class Neuromancer extends Applet {
@@ -14,16 +12,16 @@ public class Neuromancer extends Applet {
 	public Wintermute wintermute = new Wintermute();
 	public SpeechThread speechThread;
 	
-	@SuppressWarnings("deprecation")
 	public void init()
 	{
 		this.setSize(640, 480);
 		speechThread = (new SpeechThread());
 		speechThread.start();
-		if(Calendar.getInstance().getTime().getHours() <= 12)
-			speechThread.speak("The time is now "+Calendar.getInstance().getTime().getHours() + " " + Calendar.getInstance().getTime().getMinutes()+".");
-		else
-			speechThread.speak("The time is now "+(Calendar.getInstance().getTime().getHours()-12) + " " + Calendar.getInstance().getTime().getMinutes()+".");
+		
+		wintermute.addWikiByName("minecraftwiki");
+		
+		String speak = wintermute.formatWikitext(wintermute.wikiList.get("minecraftwiki").sectionContent("The Nether", 0));
+		speechThread.speak(speak);
 	}
 	
 	public void paint(Graphics g)

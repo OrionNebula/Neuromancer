@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class SpeechSynthesis {
 	
-	public String exePath = "C:\\Program Files\\eSpeak\\command_line\\espeak.exe";
+	public String exePath = "C:\\Program Files (x86)\\eSpeak\\command_line\\espeak.exe";
 	
 	public SpeechSynthesis(String exePath)
 	{
@@ -19,7 +19,7 @@ public class SpeechSynthesis {
 	{
 		try {
 			@SuppressWarnings("unused")
-			Process p = Runtime.getRuntime().exec(this.exePath+" -vmb-en1 -s150 \""+textToSay+"\"");
+			Process p = Runtime.getRuntime().exec(this.exePath+" -vmb-en1 -s125 \""+textToSay+"\"");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

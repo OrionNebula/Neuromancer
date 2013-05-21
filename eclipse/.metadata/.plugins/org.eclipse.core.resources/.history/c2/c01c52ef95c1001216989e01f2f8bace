@@ -1,0 +1,31 @@
+package neuromancer.core;
+
+import java.applet.Applet;
+import java.awt.*;
+import neuromancer.voice.*;
+
+import wintermute.core.Wintermute;
+
+public class Neuromancer extends Applet {
+	
+	private static final long serialVersionUID = 1L;
+	public Wintermute wintermute = new Wintermute();
+	public SpeechThread speechThread;
+	
+	public void init()
+	{
+		this.setSize(640, 480);
+		speechThread = (new SpeechThread());
+		speechThread.start();
+		//speechThread.speakTime();
+		wintermute.addWikiByName("bulbapedia");
+		
+		speechThread.speak(wintermute.wikiList.get("bulbapedia").sectionContent("Glitch", 3));
+	}
+	
+	public void paint(Graphics g)
+	{
+		
+	}
+
+}

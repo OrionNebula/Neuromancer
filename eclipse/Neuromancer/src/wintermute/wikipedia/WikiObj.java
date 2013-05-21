@@ -17,6 +17,17 @@ public class WikiObj {
 	public WikiObj(String wikiURL)
 	{
 		this.theWiki = new Wiki(wikiURL);
+		try {
+			this.theWiki.getScriptPath();
+		} catch (Exception e) {
+			System.out.println("Couldn't find script path, assuming blank");
+			this.theWiki = new Wiki(wikiURL, "");
+		}
+	}
+	
+	public WikiObj(String wikiURL, String scriptPath)
+	{
+		this.theWiki = new Wiki(wikiURL, scriptPath);
 	}
 	
 	//Return the content by section

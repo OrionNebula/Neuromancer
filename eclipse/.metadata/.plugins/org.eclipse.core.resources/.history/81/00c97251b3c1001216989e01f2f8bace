@@ -1,0 +1,53 @@
+package neuromancer.core;
+
+import java.applet.Applet;
+import java.awt.Graphics;
+
+import neuromancer.voice.SpeechThread;
+import wintermute.core.Wintermute;
+
+public class Neuromancer extends Applet {
+	
+	private static final long serialVersionUID = 1L;
+	public Wintermute wintermute = new Wintermute();
+	public SpeechThread speechThread;
+	
+	public void init()
+	{
+		this.setSize(640, 480);
+		speechThread = (new SpeechThread());
+		speechThread.start();
+		//speechThread.speakTime();
+		wintermute.addWikiByName("minecraftwiki", "");
+		/*PrintWriter out = null;
+		try {
+			out = new PrintWriter("tmp.txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		out.println(wintermute.wikiList.get("minecraftwiki").sectionContent("The Overworld", 0).replace("'", "").replace("[", "").replace("]", ""));*/
+		String revise = wintermute.wikiList.get("minecraftwiki").sectionContent("The Overworld", 0);
+		while(revise.contains("|"))
+		{
+			String toReplace = revise.substring(revise.indexOf("[["), revise.indexOf("]]"));
+			if(!toReplace.contains("File"))
+				if(toReplace.contains("|") && toReplace.contains("]") && toReplace.contains("["))
+				{
+					String goodReplace = toReplace.substring(toReplace.indexOf("|"), toReplace.indexOf("]")).replace("]", "").replace("|","");;
+					revise = revise.replace(toReplace, goodReplace);
+				}else
+				{
+					revise = revise.replace(toReplace, toReplace.replace("[", "").replace("]",""));
+				}
+			System.out.println(revise);
+		}
+		speechThread.speak(revise.replace("'", "").replace("[", "").replace("]", "").replace("\"", ""));
+	}
+	
+	public void paint(Graphics g)
+	{
+		
+	}
+
+}

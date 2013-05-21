@@ -1,0 +1,94 @@
+package wintermute.core;
+
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
+
+import com.google.gson.Gson;
+
+import wintermute.wolfram.*;
+import wintermute.wikipedia.*;
+
+public class Wintermute {
+	
+	public String apiKey = "LXY739-7LAEYLYV67";
+	public WolframObj theWolfram;
+	public HashMap<String, WikiObj> wikiList = new HashMap<String, WikiObj>();
+	
+	public Wintermute()
+	{
+		this.theWolfram = new WolframObj(this.apiKey);
+		wikiList.put("wikipedia", new WikiObj("en.wikipedia.org"));
+	}
+	
+	public Wintermute(WolframObj wolframParam)
+	{
+		this.theWolfram = wolframParam;
+		wikiList.put("wikipedia", new WikiObj("en.wikipedia.org"));
+	}
+	
+	public Wintermute(String wikiURL)
+	{
+		this.theWolfram = new WolframObj(this.apiKey);
+		wikiList.put("wikipedia", new WikiObj(wikiURL));
+	}
+	
+	public void addWiki(String name, String wikiURL)
+	{
+		wikiList.put(name, new WikiObj(wikiURL));
+	}
+	
+	public void addWikiByName(String name)
+	{
+		String google = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=";
+	    String charset = "UTF-8";
+
+	    URL url;
+	    Reader reader = null;
+		try {
+			url = new URL(google + URLEncoder.encode(name, charset));
+			reader = new InputStreamReader(url.openStream(), charset);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    GoogleResults results = new Gson().fromJson(reader, GoogleResults.class);
+	    
+		wikiList.put(name, new WikiObj(results.getResponseData().getResults().get(0).getUrl()));
+	}
+	
+	public WikiObj getWiki(String name)
+	{
+		return wikiList.get(name);
+	}
+}
+
+class GoogleResults {
+
+    private ResponseData responseData;
+    public ResponseData getResponseData() { return responseData; }
+    public void setResponseData(ResponseData responseData) { this.responseData = responseData; }
+    public String toString() { return "ResponseData[" + responseData + "]"; }
+
+    static class ResponseData {
+        private List<Result> results;
+        public List<Result> getResults() { return results; }
+        public void setResults(List<Result> results) { this.results = results; }
+        public String toString() { return "Results[" + results + "]"; }
+    }
+
+    static class Result {
+        private String url;
+        private String title;
+        public String getUrl() { return url; }
+        public String getTitle() { return title; }
+        public void setUrl(String url) { this.url = url; }
+        public void setTitle(String title) { this.title = title; }
+        public String toString() { return "Result[url:" + url +",title:" + title + "]"; }
+    }
+
+}
