@@ -11,7 +11,6 @@ public class RawVoice {
 		try {
 			input = theRecognizer.getRecognizedDataForWave("tmp.wav").getResponse();
 		} catch (Exception e1) {
-			e1.printStackTrace();
 			input = "";
 		}
 		return input;

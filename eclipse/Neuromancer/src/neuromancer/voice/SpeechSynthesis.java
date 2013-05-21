@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class SpeechSynthesis {
 	
-	public String exePath = "C:\\Program Files (x86)\\eSpeak\\command_line\\espeak.exe";
+	public String exePath = "C:\\Program Files\\eSpeak\\command_line\\espeak.exe";
 	
 	public SpeechSynthesis(String exePath)
 	{

@@ -1,0 +1,10 @@
+package neuromancer.voice;
+
+public class RefinedVoice extends RawVoice {
+	
+	public String refineVoice(String input)
+	{
+		return "";
+	}
+
+}

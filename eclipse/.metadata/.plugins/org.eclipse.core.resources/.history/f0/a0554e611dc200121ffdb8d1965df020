@@ -1,0 +1,10 @@
+package neuromancer.voice;
+
+public class RefinedVoice {
+	
+	public static String refineVoice(String input)
+	{
+		return input.replace(" the ", " ").replace(" for ", " ").replace(" a ", " ");
+	}
+
+}

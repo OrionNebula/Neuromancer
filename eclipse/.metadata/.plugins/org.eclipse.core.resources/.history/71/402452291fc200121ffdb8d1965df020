@@ -1,0 +1,36 @@
+package neuromancer.core;
+
+import java.applet.Applet;
+import java.awt.Graphics;
+import java.util.Scanner;
+
+import neuromancer.voice.AudioInput;
+import neuromancer.voice.SpeechThread;
+import wintermute.core.Wintermute;
+
+public class Neuromancer extends Applet {
+	
+	private static final long serialVersionUID = 1L;
+	public Wintermute wintermute = new Wintermute();
+	public SpeechThread speechThread;
+	
+	public void init()
+	{
+		this.setSize(640, 480);
+		speechThread = (new SpeechThread());
+		speechThread.start();
+		AudioInput.startInput("tmp.wav");
+		Scanner sc = new Scanner(System.in);
+	    while(!sc.nextLine().equals(""));
+		
+		wintermute.addWikiByName("minecraftwiki");
+		String speak = wintermute.formatWikitext(wintermute.wikiList.get("minecraftwiki").sectionContent("Cow", 0));
+		speechThread.speak(speak);
+	}
+	
+	public void paint(Graphics g)
+	{
+		
+	}
+
+}
