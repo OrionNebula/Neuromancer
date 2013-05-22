@@ -1,0 +1,5 @@
+package wintermute.data;
+
+public class NodeFile extends Node {
+
+}

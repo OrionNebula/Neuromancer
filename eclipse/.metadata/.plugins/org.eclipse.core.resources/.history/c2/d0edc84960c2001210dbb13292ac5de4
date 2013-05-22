@@ -1,0 +1,15 @@
+package wintermute.data;
+
+public class ExecutionFacilitator {
+	
+	public static void execute(String fullPath, String[] args)
+	{
+		String clArgs = "";
+		for(String item : args)
+		{
+			clArgs = clArgs+" "+item;
+		}
+		Process p = Runtime.getRuntime().exec(fullPath+" "+clArgs);
+	}
+
+}

@@ -1,0 +1,17 @@
+package wintermute.data;
+
+import java.io.IOException;
+
+public class ExecutionFacilitator {
+	
+	public static void execute(String fullPath, String[] args) throws Exception
+	{
+		String clArgs = "";
+		for(String item : args)
+		{
+			clArgs = clArgs+" "+item;
+		}
+		Process p = Runtime.getRuntime().exec(fullPath+" "+clArgs);
+	}
+
+}

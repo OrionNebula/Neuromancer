@@ -1,0 +1,38 @@
+package neuromancer.core;
+
+import java.applet.Applet;
+import java.awt.Graphics;
+import java.util.Scanner;
+
+import neuromancer.voice.*;
+import wintermute.core.Wintermute;
+
+public class Neuromancer extends Applet {
+	
+	private static final long serialVersionUID = 1L;
+	public Wintermute wintermute = new Wintermute();
+	public SpeechSynthesis speechSynth = new SpeechSynthesis("C:\\Program Files (x86)\\eSpeak\\command_line\\espeak.exe");
+	
+	public void init()
+	{
+		this.setSize(640, 480);
+		/*AudioInput.startInput("tmp.wav");
+		Scanner sc = new Scanner(System.in);
+	    while(!sc.nextLine().equals(""));
+	    sc.close();
+	    sc = null;
+		AudioInput.stopInput();
+		String input = RawVoice.getVoice("tmp.wav");
+		System.err.println("INPUT: "+input);
+		String[] wikiName = RefinedVoice.cut(RefinedVoice.refineVoice(input), " ");
+		wintermute.addWikiByName(wikiName[1]+wikiName[2]);
+		String speak = wintermute.formatWikitext(wintermute.wikiList.get(wikiName[1]+wikiName[2]).sectionContent(wikiName[3], 0));
+		speechSynth.speak(speak);*/
+	}
+	
+	public void paint(Graphics g)
+	{
+		g.drawString("Ready", 0, this.getHeight()-0);
+	}
+
+}

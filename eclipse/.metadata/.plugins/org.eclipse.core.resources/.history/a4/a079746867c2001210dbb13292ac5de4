@@ -1,0 +1,9 @@
+package wintermute.data;
+
+public class NodeMusic extends NodeFile {
+
+	public NodeMusic(String fullPath) {
+		super(fullPath);
+	}
+
+}

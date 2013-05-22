@@ -1,5 +1,24 @@
 package wintermute.data;
 
-public class DataSet {
+import java.io.*;
+
+public class DataSet implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
+	public String setName = "NoName";
+
+	public void store(String toStore) throws Exception
+	{
+		ObjectOutputStream objectStream = new ObjectOutputStream(new FileOutputStream(new File(toStore)));
+		objectStream.writeObject(this);
+		objectStream.close();
+	}
+	
+	@SuppressWarnings("resource")
+	public static DataSet load(String toLoad) throws Exception
+	{
+		return (DataSet) new ObjectInputStream(new FileInputStream(new File(toLoad))).readObject();
+	}
 
 }

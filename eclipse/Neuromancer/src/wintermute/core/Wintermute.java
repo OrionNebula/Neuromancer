@@ -87,8 +87,37 @@ public class Wintermute {
 	public String formatWikitext(String wikiText)
 	{
 		String revise = wikiText;
+		while(revise.contains("<") || revise.contains(">"))
+		{
+			System.out.println("HTML:"+revise);
+			String subRevise = revise.substring(revise.indexOf("<")+1, revise.indexOf(">"));
+			revise = revise.replace("<"+subRevise+">", "");
+			if(revise.contains(">"))
+				if(!revise.substring(0, revise.indexOf(">")).contains("<"))
+					revise = revise.substring(revise.indexOf(">")+1);
+		}
+		while(revise.contains("{") || revise.contains("}"))
+		{
+			System.out.println("SINGLE:"+revise);
+			if(revise.contains("}"))
+				if(!revise.substring(0, revise.indexOf("}")).contains("{"))
+					revise = revise.substring(revise.indexOf("}")+1);
+			String subRevise = revise.substring(revise.indexOf("{")+1, revise.indexOf("}"));
+			revise = revise.replace("{"+subRevise+"}", "");
+			
+		}
+		while(revise.contains("{") || revise.contains("}"))
+		{
+			System.out.println("BRACES:"+revise);
+			String subRevise = revise.substring(revise.indexOf("{{")+2, revise.indexOf("}}"));
+			revise = revise.replace("{{"+subRevise+"}}", "");
+			if(revise.contains("}}"))
+				if(!revise.substring(0, revise.indexOf("}}")).contains("{{"))
+					revise = revise.substring(revise.indexOf("}}")+2);
+		}
 		while(revise.contains("[") || revise.contains("]"))
 		{
+			System.out.println("BRAKETS:"+revise);
 			if(revise.substring(0, revise.indexOf("]]")).contains("[[")){
 				String subRevise = revise.substring(revise.indexOf("[[")+2, revise.indexOf("]]"))/*.replace("[", "").replace("]", "")*/;
 				if(subRevise.contains("|") && subRevise.indexOf("|") == subRevise.lastIndexOf("|"))
@@ -108,22 +137,7 @@ public class Wintermute {
 				revise = revise.substring(revise.indexOf("]]")+2);
 			}
 		}
-		while(revise.contains("{") || revise.contains("}"))
-		{
-			String subRevise = revise.substring(revise.indexOf("{{")+2, revise.indexOf("}}"));
-			revise = revise.replace("{{"+subRevise+"}}", "");
-			if(revise.contains("}}"))
-				if(!revise.substring(0, revise.indexOf("}}")).contains("{{"))
-					revise = revise.substring(revise.indexOf("}}")+2);
-		}
-		while(revise.contains("<") || revise.contains(">"))
-		{
-			String subRevise = revise.substring(revise.indexOf("<")+1, revise.indexOf(">"));
-			revise = revise.replace("<"+subRevise+">", "");
-			if(revise.contains(">"))
-				if(!revise.substring(0, revise.indexOf(">")).contains("<"))
-					revise = revise.substring(revise.indexOf(">")+1);
-		}
+		
 		return revise.replace("'", "").replace("[", "").replace("]", "").replace("\"", "").replace("{", "").replace("}", "").replace("<", "").replace(">", "");
 	}
 }

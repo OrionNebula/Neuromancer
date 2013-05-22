@@ -1,0 +1,7 @@
+package wintermute.data;
+
+import java.io.Serializable;
+
+public class NodeImage extends Node implements Serializable {
+	private static final long serialVersionUID = 1L;
+}

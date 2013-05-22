@@ -1,0 +1,11 @@
+package wintermute.data;
+
+public class NodeFile extends Node {
+	
+	public String path = "";
+	
+	public NodeFile(String fullPath)
+	{
+		this.path = fullPath;
+	}
+}

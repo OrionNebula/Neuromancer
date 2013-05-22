@@ -1186,7 +1186,8 @@ public class Wiki implements Serializable
      *  @throws IOException if a network error occurs
      *  @since 0.28
      */
-    public HashMap getPageInfo(String page) throws IOException
+    @SuppressWarnings("rawtypes")
+	public HashMap getPageInfo(String page) throws IOException
     {
         return getPageInfo(new String[] { page } )[0];
     }
@@ -1217,7 +1218,8 @@ public class Wiki implements Serializable
      *  @throws IOException if a network error occurs
      *  @since 0.23
      */
-    public HashMap[] getPageInfo(String[] pages) throws IOException
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public HashMap[] getPageInfo(String[] pages) throws IOException
     {
         HashMap[] info = new HashMap[pages.length];
         String urlstart = query + "prop=info&intoken=edit%7Cwatch&inprop=protection%7Cdisplaytitle%7Cwatchers&titles=";
@@ -1411,7 +1413,8 @@ public class Wiki implements Serializable
      *  @throws IOException if a network error occurs
      *  @since 0.28
      */
-    public HashMap<String, Integer> getNamespaces() throws IOException
+    @SuppressWarnings("unchecked")
+	public HashMap<String, Integer> getNamespaces() throws IOException
     {
         if (namespaces == null)
             populateNamespaceCache();
@@ -1447,7 +1450,8 @@ public class Wiki implements Serializable
      *  @throws IOException if a network error occurs
      *  @since 0.10
      */
-    public boolean[] exists(String... titles) throws IOException
+    @SuppressWarnings("rawtypes")
+	public boolean[] exists(String... titles) throws IOException
     {
         boolean[] ret = new boolean[titles.length];
         HashMap[] info = getPageInfo(titles);
@@ -1664,7 +1668,8 @@ public class Wiki implements Serializable
      *  @see #getPageText
      *  @since 0.17
      */
-    public synchronized void edit(String title, String text, String summary, boolean minor, boolean bot,
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public synchronized void edit(String title, String text, String summary, boolean minor, boolean bot,
         int section, Calendar basetime) throws IOException, LoginException
     {
         // @revised 0.16 to use API edit. No more screenscraping - yay!
@@ -1815,7 +1820,8 @@ public class Wiki implements Serializable
      *  @throws AccountLockedException if user is blocked
      *  @since 0.24
      */
-    public synchronized void delete(String title, String reason) throws IOException, LoginException
+    @SuppressWarnings("rawtypes")
+	public synchronized void delete(String title, String reason) throws IOException, LoginException
     {
         long start = System.currentTimeMillis();
         statusCheck();
@@ -2267,7 +2273,8 @@ public class Wiki implements Serializable
      *  @throws CredentialException if page is protected and we can't move it
      *  @since 0.16
      */
-    public synchronized void move(String title, String newTitle, String reason, boolean noredirect, boolean movetalk,
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public synchronized void move(String title, String newTitle, String reason, boolean noredirect, boolean movetalk,
         boolean movesubpages) throws IOException, LoginException
     {
         long start = System.currentTimeMillis();
@@ -2583,7 +2590,8 @@ public class Wiki implements Serializable
      *  page.
      *  @since 0.20
      */
-    public synchronized void undo(Revision rev, Revision to, String reason, boolean minor,
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public synchronized void undo(Revision rev, Revision to, String reason, boolean minor,
         boolean bot) throws IOException, LoginException
     {
         // throttle
@@ -2987,7 +2995,8 @@ public class Wiki implements Serializable
      *  @return a list of all live images the user has uploaded
      *  @throws IOException if a network error occurs
      */
-    public LogEntry[] getUploads(User user, Calendar start, Calendar end) throws IOException
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public LogEntry[] getUploads(User user, Calendar start, Calendar end) throws IOException
     {
         StringBuilder url = new StringBuilder(query);
         url.append("list=allimages&ailimit=max&aisort=timestamp&aiprop=timestamp%7Ccomment&aiuser="); // ?
@@ -3053,7 +3062,8 @@ public class Wiki implements Serializable
      *  @throws AccountLockedException if user is blocked
      *  @since 0.21
      */
-    public synchronized void upload(File file, String filename, String contents, String reason) throws IOException, LoginException
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public synchronized void upload(File file, String filename, String contents, String reason) throws IOException, LoginException
     {
         // TODO: upload via URL
 
@@ -3572,7 +3582,8 @@ public class Wiki implements Serializable
      *  @see #unwatch
      *  @since 0.18
      */
-    protected void watchInternal(boolean unwatch, String... titles) throws IOException, CredentialNotFoundException
+    @SuppressWarnings("rawtypes")
+	protected void watchInternal(boolean unwatch, String... titles) throws IOException, CredentialNotFoundException
     {
         // create the watchlist cache
         String state = unwatch ? "unwatch" : "watch";
@@ -4040,7 +4051,8 @@ public class Wiki implements Serializable
      *  the list of urls (instance of <tt>java.net.URL</tt>)
      *  @since 0.06
      */
-    public ArrayList[] linksearch(String pattern) throws IOException
+    @SuppressWarnings("rawtypes")
+	public ArrayList[] linksearch(String pattern) throws IOException
     {
         return linksearch(pattern, "http");
     }
@@ -4062,7 +4074,8 @@ public class Wiki implements Serializable
      *  the list of urls (instance of <tt>java.net.URL</tt>)
      *  @since 0.24
      */
-    public ArrayList[] linksearch(String pattern, String protocol, int... ns) throws IOException
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public ArrayList[] linksearch(String pattern, String protocol, int... ns) throws IOException
     {
         // FIXME: Change return type to ArrayList<Object[]> or Object[][]
         // First index refers to item number, linksearch()[x][0] = page title
@@ -6302,7 +6315,8 @@ public class Wiki implements Serializable
      *  @throws CredentialExpiredException if cookies have expired
      *  @since 0.10
      */
-    protected boolean checkRights(HashMap<String, Object> pageinfo, String action) throws IOException, CredentialException
+    @SuppressWarnings("unchecked")
+	protected boolean checkRights(HashMap<String, Object> pageinfo, String action) throws IOException, CredentialException
     {
         // Check if we are logged out. Easiest way is via the edit token.
         String token = (String)pageinfo.get("token");
@@ -6541,7 +6555,8 @@ public class Wiki implements Serializable
      *  @throws ClassNotFoundException if we can't recognize the input
      *  @since 0.10
      */
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+    @SuppressWarnings("unchecked")
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
         String z = (String)in.readObject();
         user = new User(z);

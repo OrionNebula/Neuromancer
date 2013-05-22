@@ -1,0 +1,15 @@
+package neuromancer.voice;
+
+public class VoiceActor {
+	
+	public static void act(String input)
+	{
+		
+	}
+	
+	public static void actOnRaw(String rawInput)
+	{
+		act(RefinedVoice.refineVoice(rawInput));
+	}
+
+}

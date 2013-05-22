@@ -4,39 +4,40 @@ import java.applet.Applet;
 import java.awt.Graphics;
 import java.util.Scanner;
 
-import neuromancer.voice.AudioInput;
-import neuromancer.voice.RawVoice;
-import neuromancer.voice.RefinedVoice;
-import neuromancer.voice.SpeechThread;
+import neuromancer.voice.*;
 import wintermute.core.Wintermute;
+import wintermute.data.*;
 
 public class Neuromancer extends Applet {
 	
 	private static final long serialVersionUID = 1L;
-	public Wintermute wintermute = new Wintermute();
-	public SpeechThread speechThread;
+	public static Wintermute wintermute = new Wintermute();
+	public static SpeechSynthesis speechSynth = new SpeechSynthesis("C:\\Program Files (x86)\\eSpeak\\command_line\\espeak.exe");
+	public static String action = "Ready";
+	public static Node nodeCache;
 	
 	public void init()
 	{
 		this.setSize(640, 480);
-		speechThread = (new SpeechThread());
-		speechThread.start();
 		AudioInput.startInput("tmp.wav");
 		Scanner sc = new Scanner(System.in);
 	    while(!sc.nextLine().equals(""));
+	    sc.close();
+	    sc = null;
 		AudioInput.stopInput();
 		String input = RawVoice.getVoice("tmp.wav");
-		System.err.println("INPUT: "+input);
-		String[] wikiName = RefinedVoice.cut(RefinedVoice.refineVoice(input), "\\ ");
-		System.out.println(wikiName);
-		wintermute.addWikiByName(wikiName[1]+wikiName[2]);
-		String speak = wintermute.formatWikitext(wintermute.wikiList.get(wikiName[1]+wikiName[2]).sectionContent(wikiName[3], 0));
-		speechThread.speak(speak);
+		System.out.println(input);
+		try {
+			VoiceActor.actOnRaw(input);
+		} catch (Exception e) {
+			System.err.println("[NEUROMANCER] Act returned exception! Malformed input?");
+			e.printStackTrace();
+		}
 	}
 	
 	public void paint(Graphics g)
 	{
-		
+		g.drawString(action, 0, this.getHeight()-5);
 	}
 
 }

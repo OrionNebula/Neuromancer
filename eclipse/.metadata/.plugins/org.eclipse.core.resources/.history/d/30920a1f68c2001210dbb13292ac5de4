@@ -1,0 +1,27 @@
+package neuromancer.voice;
+
+public class VoiceActor {
+	
+	public static void act(String input)
+	{
+		
+	}
+	
+	public static void actOnRaw(String rawInput)
+	{
+		act(RefinedVoice.refineVoice(rawInput));
+	}
+	
+	private static int firstVerb(String input)
+	{
+		String[] words = RefinedVoice.cut(input, " ");
+		for(String word : words)
+		{
+			if(Thesaurus.getPartsOfSpeech(word).equals(""))
+			{
+				
+			}
+		}
+		return -1;
+	}
+}

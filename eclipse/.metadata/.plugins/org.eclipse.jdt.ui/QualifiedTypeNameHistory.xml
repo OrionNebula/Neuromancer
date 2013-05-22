@@ -17,9 +17,6 @@
 <fullyQualifiedTypeName name="org.wikipedia.Wiki"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="org.apache.batik.transcoder.image.PNGTranscoder"/>
-<fullyQualifiedTypeName name="java.io.File"/>
-<fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
-<fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="com.wolfram.alpha.WAImage"/>
 <fullyQualifiedTypeName name="java.net.URL"/>
 <fullyQualifiedTypeName name="neuromancer.voice.SpeechSynthesis"/>
@@ -45,4 +42,15 @@
 <fullyQualifiedTypeName name="java.util.Scanner"/>
 <fullyQualifiedTypeName name="neuromancer.voice.RefinedVoice"/>
 <fullyQualifiedTypeName name="neuromancer.voice.RawVoice"/>
+<fullyQualifiedTypeName name="wintermute.data.ExecutionFacilitator"/>
+<fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
+<fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.io.ObjectOutputStream"/>
+<fullyQualifiedTypeName name="neuromancer.core.Neuromancer"/>
+<fullyQualifiedTypeName name="wintermute.data.Node"/>
+<fullyQualifiedTypeName name="java.io.Serializable"/>
+<fullyQualifiedTypeName name="wintermute.data.NodeWiki"/>
+<fullyQualifiedTypeName name="wintermute.wikipedia.WikiObj"/>
+<fullyQualifiedTypeName name="neuromancer.voice.VoiceActor"/>
 </qualifiedTypeNameHistroy>

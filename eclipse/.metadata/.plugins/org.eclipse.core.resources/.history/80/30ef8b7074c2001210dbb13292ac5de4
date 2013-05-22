@@ -1,0 +1,42 @@
+package neuromancer.voice;
+
+public class VoiceActor {
+	
+	public static void act(String input)
+	{
+		String[] cutInput = RefinedVoice.cut(input, " ");
+		String actionGuess = findFirst(input, "verb");
+		switch(actionGuess)
+		{
+		case "search":
+			
+			break;
+		case "":
+			System.err.println("[ACT] No verbs were found! Malformed input?");
+			break;
+		}
+	}
+	
+	public static void actOnRaw(String rawInput)
+	{
+		act(RefinedVoice.refineVoice(rawInput));
+	}
+	
+	private static int findFirst(String input, String type)
+	{
+		String[] words = RefinedVoice.cut(input, " ");
+		int toReturn = 0;
+		for(String word : words)
+		{
+			for(String part : Thesaurus.getPartsOfSpeech(word))
+			{
+				if(part.equals(type))
+				{
+					return toReturn;
+				}
+			}
+			toReturn++;
+		}
+		return -1;
+	}
+}
