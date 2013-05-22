@@ -2,16 +2,16 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/batik-1.7/batik.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/commons-codec-1.8.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/gson-2.2.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/httpclient-4.2.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/httpcore-4.2.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/javaFlacEncoder-0.3.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/jEN.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/json_simple-1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/junit-4.8.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/restfb-1.6.12.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/s127545/My Documents/GitHub/Neuromancer/batik-1.7/batik.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/s127545/My Documents/GitHub/Neuromancer/restfb-1.6.12.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/s127545/My Documents/GitHub/Neuromancer/commons-codec-1.8.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/s127545/My Documents/GitHub/Neuromancer/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/s127545/My Documents/GitHub/Neuromancer/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/s127545/My Documents/GitHub/Neuromancer/httpclient-4.2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/s127545/My Documents/GitHub/Neuromancer/httpcore-4.2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/s127545/My Documents/GitHub/Neuromancer/javaFlacEncoder-0.3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/s127545/My Documents/GitHub/Neuromancer/jEN.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/s127545/My Documents/GitHub/Neuromancer/json_simple-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/s127545/My Documents/GitHub/Neuromancer/junit-4.8.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -53,4 +53,5 @@
 <fullyQualifiedTypeName name="wintermute.data.NodeWiki"/>
 <fullyQualifiedTypeName name="wintermute.wikipedia.WikiObj"/>
 <fullyQualifiedTypeName name="neuromancer.voice.VoiceActor"/>
+<fullyQualifiedTypeName name="wintermute.music.VLC"/>
 </qualifiedTypeNameHistroy>

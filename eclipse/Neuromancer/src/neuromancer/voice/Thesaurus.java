@@ -13,6 +13,7 @@ public class Thesaurus {
 		String[] toReturn = null;
 	    try { 
 	      URL serverAddress = new URL(endpoint + "?word="+URLEncoder.encode(word, "UTF-8")+"&language=en_US&key=lDFiDd23YLqO9I8d3lz3&output=json"); 
+	      System.out.println(serverAddress.getPath());
 	      HttpURLConnection connection = (HttpURLConnection)serverAddress.openConnection(); 
 	      connection.connect(); 
 	      int rc = connection.getResponseCode(); 
