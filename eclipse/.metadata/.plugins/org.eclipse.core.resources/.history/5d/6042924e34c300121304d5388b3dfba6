@@ -1,0 +1,28 @@
+package wintermute.music;
+
+import java.io.File;
+
+import org.jaudiotagger.audio.*;
+
+import com.echonest.api.v4.Audio;
+
+public class MP3 {
+	
+	public String title;
+	
+	public File path;
+	
+	public MP3(File pathParam)
+	{
+		this.path = pathParam;
+		AudioFile audio = null;
+		try {
+			audio = AudioFileIO.read(pathParam);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Tag mp3Tag = audio.getTag();
+	}
+
+}

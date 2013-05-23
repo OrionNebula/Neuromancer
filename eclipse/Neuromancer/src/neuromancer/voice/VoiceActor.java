@@ -1,8 +1,12 @@
 package neuromancer.voice;
 
+import java.io.File;
+
+import org.jaudiotagger.tag.FieldKey;
+
 import neuromancer.core.*;
 import wintermute.data.*;
-import wintermute.music.VLC;
+import wintermute.music.*;
 import wintermute.wikipedia.*;
 
 public class VoiceActor {
@@ -36,8 +40,13 @@ public class VoiceActor {
 			break;
 		case "play":
 			System.out.println(cutInput[verbLoc+1]);
-			NodeMusic musicNode = (NodeMusic) NodeMusic.load(input.substring(input.indexOf(cutInput[verbLoc+1])+cutInput[verbLoc+1].length()+1)+".node");
-			VLC.playFile(musicNode.path);
+			NodeMusic musicNode = (NodeMusic) NodeMusic.load(input.substring(input.indexOf(cutInput[verbLoc+1]),input.length())+".node");
+			MP3 tmpFile = new MP3(new File(musicNode.path));
+			if(!tmpFile.audioTags.getFirst(FieldKey.ARTIST).equals(""))
+				Neuromancer.speechSynth.speak("Playing "+tmpFile.title+" by "+tmpFile.audioTags.getFirst(FieldKey.ARTIST));
+			else
+				Neuromancer.speechSynth.speak("Playing "+tmpFile.title);
+			MP3.play(tmpFile);
 			break;
 		case "":
 			System.err.println("[ACT] No verbs were found! Malformed input?");

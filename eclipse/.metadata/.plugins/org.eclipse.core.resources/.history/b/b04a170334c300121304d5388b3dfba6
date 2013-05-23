@@ -1,0 +1,11 @@
+package wintermute.music;
+
+import java.io.*;
+
+public class MP3 {
+	
+	public String title;
+	
+	public File path;
+
+}

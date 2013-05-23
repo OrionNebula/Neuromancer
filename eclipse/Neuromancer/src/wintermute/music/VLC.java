@@ -6,7 +6,7 @@ public class VLC {
 	
 	public static void playFile(String fullPath) throws Exception
 	{
-		String[] args = {"-vvv",fullPath};
+		String[] args = {"-vvv","\""+fullPath+"\""};
 		ExecutionFacilitator.execute("C:\\Program Files\\VideoLAN\\VLC\\vlc.exe", args);
 	}
 	

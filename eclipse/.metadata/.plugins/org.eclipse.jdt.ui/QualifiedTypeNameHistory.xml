@@ -38,14 +38,11 @@
 <fullyQualifiedTypeName name="java.io.PrintWriter"/>
 <fullyQualifiedTypeName name="java.nio.file.Paths"/>
 <fullyQualifiedTypeName name="java.nio.file.Path"/>
-<fullyQualifiedTypeName name="neuromancer.voice.AudioInput"/>
-<fullyQualifiedTypeName name="java.util.Scanner"/>
 <fullyQualifiedTypeName name="neuromancer.voice.RefinedVoice"/>
 <fullyQualifiedTypeName name="neuromancer.voice.RawVoice"/>
 <fullyQualifiedTypeName name="wintermute.data.ExecutionFacilitator"/>
 <fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
 <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
-<fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="java.io.ObjectOutputStream"/>
 <fullyQualifiedTypeName name="neuromancer.core.Neuromancer"/>
 <fullyQualifiedTypeName name="wintermute.data.Node"/>
@@ -54,4 +51,12 @@
 <fullyQualifiedTypeName name="wintermute.wikipedia.WikiObj"/>
 <fullyQualifiedTypeName name="neuromancer.voice.VoiceActor"/>
 <fullyQualifiedTypeName name="wintermute.music.VLC"/>
+<fullyQualifiedTypeName name="com.echonest.api.v4.Audio"/>
+<fullyQualifiedTypeName name="org.jaudiotagger.tag.Tag"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="neuromancer.voice.AudioInput"/>
+<fullyQualifiedTypeName name="java.util.Scanner"/>
+<fullyQualifiedTypeName name="javazoom.jl.player.Player"/>
+<fullyQualifiedTypeName name="wintermute.music.MP3"/>
+<fullyQualifiedTypeName name="org.jaudiotagger.tag.FieldKey"/>
 </qualifiedTypeNameHistroy>
