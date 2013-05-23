@@ -4,8 +4,8 @@ import java.io.*;
 
 public class NodeWiki extends Node implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	
-	public String[] sectionContents;
+	public String storedSection;
 
 }

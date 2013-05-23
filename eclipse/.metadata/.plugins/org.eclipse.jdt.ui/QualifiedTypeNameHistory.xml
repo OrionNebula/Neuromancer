@@ -47,7 +47,6 @@
 <fullyQualifiedTypeName name="java.io.Serializable"/>
 <fullyQualifiedTypeName name="wintermute.data.NodeWiki"/>
 <fullyQualifiedTypeName name="wintermute.wikipedia.WikiObj"/>
-<fullyQualifiedTypeName name="neuromancer.voice.VoiceActor"/>
 <fullyQualifiedTypeName name="wintermute.music.VLC"/>
 <fullyQualifiedTypeName name="com.echonest.api.v4.Audio"/>
 <fullyQualifiedTypeName name="org.jaudiotagger.tag.Tag"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="javafx.embed.swing.JFXPanel"/>
 <fullyQualifiedTypeName name="java.awt.Toolkit"/>
 <fullyQualifiedTypeName name="java.awt.datatransfer.DataFlavor"/>
+<fullyQualifiedTypeName name="neuromancer.voice.VoiceActor"/>
 </qualifiedTypeNameHistroy>

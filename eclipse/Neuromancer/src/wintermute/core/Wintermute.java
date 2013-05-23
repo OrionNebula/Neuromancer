@@ -95,14 +95,16 @@ public class Wintermute {
 				if(!revise.substring(0, revise.indexOf(">")).contains("<"))
 					revise = revise.substring(revise.indexOf(">")+1);
 		}
-		while(revise.contains("{{") || revise.contains("}}"))
+		while(revise.contains("{") || revise.contains("}"))
 		{
-			System.out.println("BRACES:"+revise);
-			String subRevise = revise.substring(revise.indexOf("{{"), revise.indexOf("}}"));
-			revise = revise.replace("{{"+subRevise.replace("{", "").replace("}", "")+"}}", "");
-			if(revise.contains("}}"))
-				if(!revise.substring(0, revise.indexOf("}}")).contains("{{"))
-					revise = revise.substring(revise.indexOf("}}")+2);
+			System.out.println("BRAKETS:"+revise);
+			if(revise.substring(0, revise.indexOf("}}")).contains("{{")){
+				String subRevise = revise.substring(revise.indexOf("{{")+2, revise.indexOf("]]"))/*.replace("[", "").replace("]", "")*/;
+				revise = revise.replace("{{"+subRevise+"}}", subRevise);
+			}else
+			{
+				revise = revise.substring(revise.indexOf("}}")+2);
+			}
 		}
 		/*while(revise.contains("{") || revise.contains("}"))
 		{

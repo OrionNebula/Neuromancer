@@ -28,15 +28,10 @@ public class VoiceActor {
 				searchWiki = Neuromancer.wintermute.getWiki(cutInput[verbLoc+1]);
 			}
 			NodeWiki tmpWiki = new NodeWiki();
-			tmpWiki.sectionContents = new String[searchWiki.theWiki.getSectionMap(cutInput[verbLoc+2]).size()-1];
 			int index = 0;
-			for(String item : tmpWiki.sectionContents)
-			{
-				String text = searchWiki.sectionContent(cutInput[verbLoc+2],index);
-				tmpWiki.sectionContents[index] = Neuromancer.wintermute.formatWikitext(text);
-				index++;
-			}
+			tmpWiki.storedSection = Neuromancer.wintermute.formatWikitext(searchWiki.sectionContent(cutInput[verbLoc+2],index));
 			Neuromancer.speechSynth.speak(cutInput[verbLoc+1]+"'s article on "+cutInput[verbLoc+2]+" stored to temporary node.");
+			Neuromancer.nodeCache = tmpWiki;
 			break;
 		case "play":
 			System.out.println(cutInput[verbLoc+1]);
@@ -46,6 +41,7 @@ public class VoiceActor {
 				Neuromancer.speechSynth.speak("Playing "+tmpFile.title+" by "+tmpFile.audioTags.getFirst(FieldKey.ARTIST));
 			else
 				Neuromancer.speechSynth.speak("Playing "+tmpFile.title);
+			Thread.sleep(2000);
 			MP3.play(tmpFile);
 			break;
 		case "":

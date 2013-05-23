@@ -14,7 +14,7 @@ public class Neuromancer extends Applet {
 	//Wintermute instance, static to allow global access
 	public static Wintermute wintermute = new Wintermute();
 	//Speech synthesizer
-	public static SpeechSynthesis speechSynth = new SpeechSynthesis("C:\\Program Files (x86)\\eSpeak\\command_line\\espeak.exe");
+	public static SpeechSynthesis speechSynth = new SpeechSynthesis("C:\\Program Files\\eSpeak\\command_line\\espeak.exe");
 	//Displayed constantly
 	public static String action = "Ready";
 	//Cached node that will be written on request
@@ -26,12 +26,12 @@ public class Neuromancer extends Applet {
 		//Resize
 		this.setSize(640, 480);
 		//Begin microphone capture, wait for end confirmation
-		AudioInput.startInput("tmp.wav");
+		/*AudioInput.startInput("tmp.wav");
 		Scanner sc = new Scanner(System.in);
 	    while(!sc.nextLine().equals(""));
 	    sc.close();
 	    sc = null;
-		AudioInput.stopInput();
+		AudioInput.stopInput();*/
 		//Cache a node and save it for verb testing
 		nodeCache = new NodeMusic("beck.mp3");
 		nodeCache.nodeName = "tmp";
@@ -49,7 +49,7 @@ public class Neuromancer extends Applet {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		String input = RawVoice.getVoice("tmp.wav");
+		String input = /*RawVoice.getVoice("tmp.wav")*/"search Wikipedia for carbon";
 		System.out.println(input);
 		try {
 			VoiceActor.actOnRaw(input);
@@ -57,6 +57,7 @@ public class Neuromancer extends Applet {
 			System.err.println("[NEUROMANCER] Act returned exception! Malformed input?");
 			e.printStackTrace();
 		}
+		speechSynth.speak(((NodeWiki)nodeCache).storedSection);
 	}
 	
 	public void paint(Graphics g)
