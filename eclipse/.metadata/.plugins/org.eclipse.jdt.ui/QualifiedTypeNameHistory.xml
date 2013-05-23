@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.nio.channels.FileChannel"/>
-<fullyQualifiedTypeName name="java.io.FileInputStream"/>
 <fullyQualifiedTypeName name="sun.misc.IOUtils"/>
 <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
 <fullyQualifiedTypeName name="javax.sound.sampled.AudioFileFormat"/>
@@ -59,4 +57,7 @@
 <fullyQualifiedTypeName name="javazoom.jl.player.Player"/>
 <fullyQualifiedTypeName name="wintermute.music.MP3"/>
 <fullyQualifiedTypeName name="org.jaudiotagger.tag.FieldKey"/>
+<fullyQualifiedTypeName name="javafx.embed.swing.JFXPanel"/>
+<fullyQualifiedTypeName name="java.awt.Toolkit"/>
+<fullyQualifiedTypeName name="java.awt.datatransfer.DataFlavor"/>
 </qualifiedTypeNameHistroy>

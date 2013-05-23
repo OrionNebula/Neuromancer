@@ -11,9 +11,9 @@
 	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/jEN.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/json_simple-1.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/junit-4.8.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/restfb-1.6.12.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/batik-1.7/batik.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/jaudiotagger-2.2.0-20130321.142353-1.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files (x86)/Java/jre7/lib/jfxrt.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/restfb-1.6.12.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

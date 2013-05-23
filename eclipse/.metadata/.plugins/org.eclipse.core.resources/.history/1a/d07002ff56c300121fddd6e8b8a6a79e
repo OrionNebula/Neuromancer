@@ -1,10 +1,11 @@
 package wintermute.core;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.DataFlavor;
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
 
 import wintermute.wikipedia.WikiObj;
 import wintermute.wolfram.WolframObj;
@@ -138,16 +139,6 @@ public class Wintermute {
 		}
 		
 		return revise.replace("'", "").replace("[", "").replace("]", "").replace("\"", "").replace("{", "").replace("}", "").replace("<", "").replace(">", "");
-	}
-	
-	public static String getClipboard()
-	{
-		try {
-			return (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 }
 

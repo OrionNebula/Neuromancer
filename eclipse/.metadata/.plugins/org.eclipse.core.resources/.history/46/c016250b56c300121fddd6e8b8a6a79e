@@ -2,7 +2,6 @@ package wintermute.music;
 
 import java.io.File;
 
-import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -35,7 +34,6 @@ public class MP3 {
 	
 	public static void play(MP3 mp3File)
 	{
-		new JFXPanel();
 		Media media = new Media(mp3File.path.toURI().toString());
 		thePlayer = new MediaPlayer(media);
 		thePlayer.play();

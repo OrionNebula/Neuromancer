@@ -41,7 +41,7 @@ public class VoiceActor {
 		case "play":
 			System.out.println(cutInput[verbLoc+1]);
 			NodeMusic musicNode = (NodeMusic) NodeMusic.load(input.substring(input.indexOf(cutInput[verbLoc+1]),input.length())+".node");
-			MP3 tmpFile = new MP3(new File(musicNode.path.replace("\\", "/").replace("C:/", "/")));
+			MP3 tmpFile = new MP3(new File(musicNode.path));
 			if(!tmpFile.audioTags.getFirst(FieldKey.ARTIST).equals(""))
 				Neuromancer.speechSynth.speak("Playing "+tmpFile.title+" by "+tmpFile.audioTags.getFirst(FieldKey.ARTIST));
 			else
