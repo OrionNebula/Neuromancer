@@ -39,6 +39,7 @@ public class MP3 {
 		Media media = new Media(mp3File.path.toURI().toString());
 		thePlayer = new MediaPlayer(media);
 		thePlayer.play();
+		System.out.println("Now playing "+media.getSource());
 	}
 	
 	public static void stop()

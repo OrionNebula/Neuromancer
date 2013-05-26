@@ -1,0 +1,86 @@
+package neuromancer.voice;
+
+import java.io.File;
+
+import org.jaudiotagger.tag.FieldKey;
+
+import neuromancer.core.*;
+import wintermute.data.*;
+import wintermute.music.*;
+import wintermute.wikipedia.*;
+
+public class VoiceActor {
+	
+	@SuppressWarnings("unused")
+	public static void act(String input) throws Exception
+	{
+		String[] cutInput = RefinedVoice.cut(input, " ");
+		int verbLoc = findFirst(input, "verb");
+		String actionGuess = cutInput[verbLoc];
+		System.out.println(actionGuess);
+		switch(actionGuess)
+		{
+		case "search":
+			WikiObj searchWiki;
+			if(cutInput[verbLoc+1].equals("Wikipedia"))
+				searchWiki = Neuromancer.wintermute.getWiki("wikipedia");
+			else{
+				Neuromancer.wintermute.addWikiByName(cutInput[verbLoc+1]);
+				searchWiki = Neuromancer.wintermute.getWiki(cutInput[verbLoc+1]);
+			}
+			NodeWiki tmpWiki = new NodeWiki();
+			int index = 0;
+			tmpWiki.storedSection = Neuromancer.wintermute.formatWikitext(searchWiki.sectionContent(cutInput[verbLoc+2],index));
+			Neuromancer.speechSynth.speak(cutInput[verbLoc+1]+"'s article on "+cutInput[verbLoc+2]+" stored to temporary node.");
+			Neuromancer.nodeCache = tmpWiki;
+			break;
+		case "play":
+			System.out.println(cutInput[verbLoc+1]);
+			NodeMusic musicNode = (NodeMusic) NodeMusic.load(input.substring(input.indexOf(cutInput[verbLoc+1]),input.length())+".node");
+			MP3 tmpFile = new MP3(new File(musicNode.path.replace("\\", "/").replace("C:/", "/")));
+			if(!tmpFile.audioTags.getFirst(FieldKey.ARTIST).equals(""))
+				Neuromancer.speechSynth.speak("Playing "+tmpFile.title+" by "+tmpFile.audioTags.getFirst(FieldKey.ARTIST));
+			else
+				Neuromancer.speechSynth.speak("Playing "+tmpFile.title);
+			Thread.sleep(2000);
+			MP3.play(tmpFile);
+			break;
+		case "":
+			System.err.println("[ACT] No verbs were found! Malformed input?");
+			System.out.println(actionGuess);
+			break;
+		default:
+			System.err.println("[ACT] \""+actionGuess+"\" could not be handled!");
+			Neuromancer.speechSynth.speak(actionGuess+" doesn't have any valid handlers");
+			break;
+		}
+	}
+	
+	public static void actOnRaw(String rawInput) throws Exception
+	{
+		act(RefinedVoice.refineVoice(rawInput));
+	}
+	
+	private static int findFirst(String input, String type)
+	{
+		String[] words = RefinedVoice.cut(input, " ");
+		int toReturn = 0;
+		for(String word : words)
+		{
+			try{
+				for(String part : Thesaurus.getPartsOfSpeech(word))
+				{
+					System.out.println(part+", "+type);
+					if(part.equals(type))
+					{
+						return toReturn;
+					}
+				}
+			}catch(Exception e)
+			{
+			}
+			toReturn++;
+		}
+		return -1;
+	}
+}

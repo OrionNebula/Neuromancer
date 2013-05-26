@@ -7,6 +7,8 @@ public class Node implements Serializable {
 	
 	public String nodeName = "NoName";
 	
+	public String nodeType = "Node";
+	
 	public void store(String toStore) throws Exception
 	{
 		ObjectOutputStream objectStream = new ObjectOutputStream(new FileOutputStream(new File(toStore)));

@@ -9,11 +9,9 @@ import org.json.simple.*; // json package, download at http://code.google.com/p/
 public class Thesaurus { 
 	public static String endpoint = "http://thesaurus.altervista.org/thesaurus/v1"; 
 	public static String[] getPartsOfSpeech(String word) {
-		System.out.println("ONCE!");
 		String[] toReturn = null;
 	    try { 
 	      URL serverAddress = new URL(endpoint + "?word="+URLEncoder.encode(word, "UTF-8")+"&language=en_US&key=lDFiDd23YLqO9I8d3lz3&output=json"); 
-	      System.out.println(serverAddress.getPath());
 	      HttpURLConnection connection = (HttpURLConnection)serverAddress.openConnection(); 
 	      connection.connect(); 
 	      int rc = connection.getResponseCode(); 

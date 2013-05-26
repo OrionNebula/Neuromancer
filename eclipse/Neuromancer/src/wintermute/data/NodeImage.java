@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 
 public class NodeImage extends Node implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+	public String nodeType = "Image Node";
 	public BufferedImage nodeImage;
 	
 	public NodeImage(String imagePath)
