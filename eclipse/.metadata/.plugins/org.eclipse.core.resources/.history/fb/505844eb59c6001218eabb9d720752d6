@@ -1,0 +1,113 @@
+package neuromancer.core;
+
+import java.applet.Applet;
+import java.awt.Graphics;
+import java.util.*;
+
+import neuromancer.voice.*;
+import wintermute.core.Wintermute;
+import wintermute.data.*;
+
+public class Neuromancer extends Applet {
+	//Required by Applets
+	private static final long serialVersionUID = 1L;
+	//Wintermute instance, static to allow global access
+	public static Wintermute wintermute = new Wintermute();
+	//Speech synthesizer
+	public static SpeechSynthesis speechSynth = new SpeechSynthesis("C:\\Program Files (x86)\\eSpeak\\command_line\\espeak.exe");
+	//Displayed constantly
+	public static String action = "Ready";
+	//Cached node that will be written on request
+	public static Node nodeCache;
+	//Array of named nodes to be cached
+	public static HashMap<String, Node> nodes = new HashMap<String, Node>();
+	
+	//Executed by applets at start
+	public void init()
+	{
+		//Resize
+		this.setSize(640, 480);
+		//Begin microphone capture, wait for end confirmation
+		/*AudioInput.startInput("tmp.wav");
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		AudioInput.stopInput();
+		//Cache a node and save it for verb testing
+		/*nodeCache = new NodeMusic("C:\\Users\\Andrew\\Documents\\GitHub\\Neuromancer\\eclipse\\Neuromancer\\Blue.mp3");
+		nodeCache.nodeName = "tmp";
+		try {
+			nodeCache.store("tmp.node");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		nodeCache = null;*/
+		/*
+		try {
+			//VLC.stopAll();
+			//VLC.playFile("C:\\Users\\Andrew\\Downloads\\A Portalicious PORTAL 2 Symphonic Orchestra Medley.mp3");
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String input = RawVoice.getVoice("tmp.wav");
+		System.out.println(input);
+		try {
+			VoiceActor.actOnRaw(input);
+		} catch (Exception e) {
+			System.err.println("[NEUROMANCER] Act returned exception! Malformed input?");
+			e.printStackTrace();
+		}
+		AudioInput.startInput("tmp.wav");
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		AudioInput.stopInput();
+		input = RawVoice.getVoice("tmp.wav");
+		System.out.println(input);
+		try {
+			VoiceActor.actOnRaw(input);
+		} catch (Exception e) {
+			System.err.println("[NEUROMANCER] Act returned exception! Malformed input?");
+			e.printStackTrace();
+		}
+		AudioInput.startInput("tmp.wav");
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		AudioInput.stopInput();
+		input = RawVoice.getVoice("tmp.wav");
+		System.out.println(input);
+		try {
+			VoiceActor.actOnRaw(input);
+		} catch (Exception e) {
+			System.err.println("[NEUROMANCER] Act returned exception! Malformed input?");
+			e.printStackTrace();
+		}*/
+		try {
+			//VoiceActor.actOnRaw("create music tron end");
+			//Thread.sleep(2000);
+			VoiceActor.actOnRaw("grab music tron end");
+			Thread.sleep(2000);
+			VoiceActor.actOnRaw("activate music tron end");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//speechSynth.speak(((NodeWiki)nodeCache).storedSection);
+	}
+	
+	public void paint(Graphics g)
+	{
+		g.drawString(action, 0, this.getHeight()-5);
+	}
+
+}

@@ -1,14 +1,18 @@
 package neuromancer.core;
 
 import java.applet.Applet;
-import java.awt.Graphics;
+import java.awt.*;
+import java.io.*;
+import java.net.*;
 import java.util.*;
+
+import com.melloware.jintellitype.*;
 
 import neuromancer.voice.*;
 import wintermute.core.Wintermute;
 import wintermute.data.*;
 
-public class Neuromancer extends Applet {
+public class Neuromancer extends Applet implements HotkeyListener{
 	//Required by Applets
 	private static final long serialVersionUID = 1L;
 	//Wintermute instance, static to allow global access
@@ -21,84 +25,88 @@ public class Neuromancer extends Applet {
 	public static Node nodeCache;
 	//Array of named nodes to be cached
 	public static HashMap<String, Node> nodes = new HashMap<String, Node>();
+	//Status color, changed based on action
+	public static Color statusColor = Color.green;
+	//Cached graphics object
+	public Graphics theGraphics;
 	
 	//Executed by applets at start
 	public void init()
 	{
 		//Resize
 		this.setSize(640, 480);
-		//Begin microphone capture, wait for end confirmation
-		AudioInput.startInput("tmp.wav");
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		AudioInput.stopInput();
-		//Cache a node and save it for verb testing
-		/*nodeCache = new NodeMusic("C:\\Users\\Andrew\\Documents\\GitHub\\Neuromancer\\eclipse\\Neuromancer\\Blue.mp3");
-		nodeCache.nodeName = "tmp";
-		try {
-			nodeCache.store("tmp.node");
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		nodeCache = null;*/
-		
-		try {
-			//VLC.stopAll();
-			//VLC.playFile("C:\\Users\\Andrew\\Downloads\\A Portalicious PORTAL 2 Symphonic Orchestra Medley.mp3");
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		String input = RawVoice.getVoice("tmp.wav");
-		System.out.println(input);
-		try {
-			VoiceActor.actOnRaw(input);
-		} catch (Exception e) {
-			System.err.println("[NEUROMANCER] Act returned exception! Malformed input?");
-			e.printStackTrace();
-		}
-		AudioInput.startInput("tmp.wav");
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		AudioInput.stopInput();
-		input = RawVoice.getVoice("tmp.wav");
-		System.out.println(input);
-		try {
-			VoiceActor.actOnRaw(input);
-		} catch (Exception e) {
-			System.err.println("[NEUROMANCER] Act returned exception! Malformed input?");
-			e.printStackTrace();
-		}
-		AudioInput.startInput("tmp.wav");
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		AudioInput.stopInput();
-		input = RawVoice.getVoice("tmp.wav");
-		System.out.println(input);
-		try {
-			VoiceActor.actOnRaw(input);
-		} catch (Exception e) {
-			System.err.println("[NEUROMANCER] Act returned exception! Malformed input?");
-			e.printStackTrace();
-		}
-		//speechSynth.speak(((NodeWiki)nodeCache).storedSection);
+		JIntellitype.setLibraryLocation(new File("JIntellitype64.dll"));
+		JIntellitype.getInstance().registerHotKey(1, JIntellitype.MOD_WIN, (int)'N');
+		JIntellitype.getInstance().addHotKeyListener(this);
 	}
 	
 	public void paint(Graphics g)
 	{
+		this.theGraphics = g;
 		g.drawString(action, 0, this.getHeight()-5);
+		g.setColor(statusColor);
+		g.fillRect(0, 0, 50, 50);
+	}
+	
+	/*public void repaint()
+	{
+		this.theGraphics.setColor(new Color(0,0,0));
+		this.theGraphics.fillRect(0, 0, this.getWidth(), this.getHeight());
+		this.paint(this.theGraphics);
+	}*/
+	
+	public boolean mouseDown(Event e, int x,int y)
+	{
+		Rectangle rect = new Rectangle(50,50);
+		if(rect.contains(x, y) && action.equals("Listening"))
+		{
+			statusColor = Color.yellow;
+			action = "Acting";
+			this.repaint();
+			AudioInput.stopInput();
+			try {
+				VoiceActor.actOnRaw(RawVoice.getVoice("tmp.wav"));
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				System.err.println("[NEUROMANCER] Some kind of recognition error. Internet connection?");
+				speechSynth.speak("");
+				try {
+				    URL url = new URL("http://www.google.com");
+				    URLConnection connection = url.openConnection();
+
+				    if(connection.getContentLength() == -1){
+				    	System.err.println("[NEUROMANCER] Almost certainly a connection issue..");
+				    }
+				  } 
+				  catch (Exception q) {
+				      System.err.println("[NEUROMANCER] Caught a(n)"+q.getClass().getCanonicalName());
+				  }
+			}
+			System.out.println("Done acting");
+			statusColor = Color.green;
+			action = "Ready";
+			this.repaint();
+		}else
+		if(rect.contains(x, y) && action.equals("Ready"))
+		{
+			statusColor = Color.red;
+			action = "Listening";
+			this.repaint();
+			AudioInput.startInput("tmp.wav");
+		}
+		return true;
 	}
 
+	@Override
+	public void onHotKey(int identifier) {
+		switch(identifier)
+		{
+		case 1:
+			this.mouseDown(null, 1, 1);
+			break;
+		default:
+			System.err.println("We were given a strange hotkey!");
+			break;
+		}
+	}
 }

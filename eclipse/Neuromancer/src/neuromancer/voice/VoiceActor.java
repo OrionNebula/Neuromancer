@@ -4,21 +4,25 @@ import java.io.File;
 
 import org.jaudiotagger.tag.FieldKey;
 
+import com.melloware.jintellitype.*;
+
 import neuromancer.core.*;
 import wintermute.core.Wintermute;
 import wintermute.data.*;
 import wintermute.music.*;
 import wintermute.wikipedia.*;
 
+
 public class VoiceActor {
 	
 	public static void act(String input) throws Exception
 	{
+		System.out.println("Acting on \""+input+"\"");
 		String[] cutInput = RefinedVoice.cut(input, " ");
 		int verbLoc = findFirst(input, "verb");
 		String actionGuess = cutInput[verbLoc];
 		System.out.println(actionGuess);
-		switch(actionGuess)
+		switch(actionGuess.toLowerCase())
 		{
 		case "search":
 			WikiObj searchWiki;
@@ -53,6 +57,15 @@ public class VoiceActor {
 				break;
 			}
 			break;
+		case "terminate":
+			MP3.stop();
+			Neuromancer.speechSynth.speak("Music stopped.");
+			break;
+		case "exit":
+			Neuromancer.speechSynth.speak("Exit command recieved. Goodbye!");
+			System.out.println("Will now exit!");
+			System.exit(0);
+			break;
 		case "create":
 			String type = cutInput[verbLoc+1];
 			String name = input.substring(input.indexOf(cutInput[verbLoc+2]),input.length());
@@ -78,10 +91,11 @@ public class VoiceActor {
 				tmpNode = new NodeWiki(Wintermute.getClipboard());
 				break;
 			}
+			tmpNode.nodeName = name;
 			tmpNode.store(name+".node");
 			Neuromancer.speechSynth.speak(type+" node "+name+" created with clipboard contents");
 			break;
-		case "grab":
+		case "add":
 			Node theNode = null;
 			String gName = input.substring(input.indexOf(cutInput[verbLoc+2]),input.length());
 			switch(cutInput[verbLoc+1].toLowerCase())
@@ -90,19 +104,19 @@ public class VoiceActor {
 				theNode = (NodeMusic)Node.load(gName+".node");
 				break;
 			case "file":
-				tmpNode = new NodeFile(Wintermute.getClipboard());
+				tmpNode = theNode = (NodeFile)Node.load(gName+".node");
 				break;
 			case "image":
-				tmpNode = new NodeImage(Wintermute.getClipboard());
+				tmpNode = theNode = (NodeImage)Node.load(gName+".node");
 				break;
 			case "plaintext":
-				tmpNode = new NodePlaintext(Wintermute.getClipboard());
+				tmpNode = theNode = (NodePlaintext)Node.load(gName+".node");
 				break;
 			case "text":
-				tmpNode = new NodePlaintext(Wintermute.getClipboard());
+				tmpNode = theNode = (NodePlaintext)Node.load(gName+".node");
 				break;
 			case "wiki":
-				tmpNode = new NodeWiki(Wintermute.getClipboard());
+				tmpNode = theNode = (NodeWiki)Node.load(gName+".node");
 				break;
 			}
 			System.out.println("Bringing "+gName+".node into memory");
@@ -113,7 +127,23 @@ public class VoiceActor {
 			break;
 		case "":
 			System.err.println("[ACT] No verbs were found! Malformed input?");
-			System.out.println(actionGuess);
+			Neuromancer.speechSynth.speak("I didn't understand your input.");
+			break;
+		case "list":
+			String dirNodes = "";
+			String activeNodes = "";
+			File[] theFiles = new File(".").listFiles();
+			for(File element : theFiles)
+			{
+				if(element.getName().contains(".node"))
+					dirNodes += ", "+element.getName().replace(".node", "");
+			}
+			for(Object element : Neuromancer.nodes.values().toArray())
+			{
+				Node forNode = (Node)element;
+				activeNodes += ", "+forNode.nodeName;
+			}
+			Neuromancer.speechSynth.speak("Available nodes: "+dirNodes+". Loaded nodes: "+activeNodes);
 			break;
 		default:
 			System.err.println("[ACT] \""+actionGuess+"\" could not be handled!");
@@ -137,7 +167,7 @@ public class VoiceActor {
 				byte index = 0;
 				for(String part : Thesaurus.getPartsOfSpeech(word))
 				{
-					if(index == 3)
+					if(index == 4)
 						break;
 					System.out.println(part+", "+type);
 					if(part.equals(type))
@@ -146,9 +176,7 @@ public class VoiceActor {
 					}
 					index++;
 				}
-			}catch(Exception e)
-			{
-			}
+			}catch(Exception e){}
 			toReturn++;
 		}
 		return -1;

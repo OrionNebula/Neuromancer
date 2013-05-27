@@ -4,7 +4,7 @@ public class RefinedVoice {
 	
 	public static String refineVoice(String input)
 	{
-		return input.replace(" the ", " ").replace(" for ", " ").replace(" a ", " ").replace(" node "," ");
+		return input.replace(" the ", " ").replace(" for ", " ").replace(" a ", " ").replace(" node "," ").replace("&", "and");
 	}
 	
 	public static String[] cut(String input, String delimeter)
