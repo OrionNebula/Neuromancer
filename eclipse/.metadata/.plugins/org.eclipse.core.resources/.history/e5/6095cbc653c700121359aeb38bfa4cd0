@@ -1,0 +1,56 @@
+package wintermute.robot;
+
+import java.awt.*;
+
+import com.sun.glass.events.KeyEvent;
+
+public class Robot {
+	
+	public static java.awt.Robot theRobot;
+	
+	public Robot()
+	{
+		 try {
+			theRobot = new java.awt.Robot();
+		} catch (AWTException e) {}
+	}
+	
+	public void type(String toType)
+	{
+		char[] someChars = toType.toLowerCase().toCharArray();
+		for(char aChar : someChars)
+		{
+			int keyCode;
+			switch(aChar)
+			{
+			case '1': keyCode = KeyEvent.VK_1; break;
+			case '2': keyCode = KeyEvent.VK_2; break;
+			case '3': keyCode = KeyEvent.VK_3; break;
+			case '4': keyCode = KeyEvent.VK_4; break;
+			case '5': keyCode = KeyEvent.VK_5; break;
+			case '6': keyCode = KeyEvent.VK_6; break;
+			case '7': keyCode = KeyEvent.VK_7; break;
+			case '8': keyCode = KeyEvent.VK_8; break;
+			case '9': keyCode = KeyEvent.VK_9; break;
+			case '0': keyCode = KeyEvent.VK_0; break;
+			case 'q': keyCode = KeyEvent.VK_Q; break;
+			case 'w': keyCode = KeyEvent.VK_W; break;
+			case 'e': keyCode = KeyEvent.VK_E; break;
+			case 'r': keyCode = KeyEvent.VK_R; break;
+			case 't': keyCode = KeyEvent.VK_T; break;
+			case 'y': keyCode = KeyEvent.VK_Y; break;
+			case 'u': keyCode = KeyEvent.VK_U; break;
+			case 'i': keyCode = KeyEvent.VK_I; break;
+			case 'o': keyCode = KeyEvent.VK_O; break;
+			case 'p': keyCode = KeyEvent.VK_P; break;
+			case 'z': keyCode = KeyEvent.VK_Z; break;
+			case 'x': keyCode = KeyEvent.VK_X; break;
+			case 'c': keyCode = KeyEvent.VK_C; break;
+			case 'v': keyCode = KeyEvent.VK_V; break;
+			case 'b': keyCode = KeyEvent.VK_B; break;
+			case 'n': keyCode = KeyEvent.VK_N; break;
+			case 'm': keyCode = KeyEvent.VK_M; break;
+			}
+		}
+	}
+}

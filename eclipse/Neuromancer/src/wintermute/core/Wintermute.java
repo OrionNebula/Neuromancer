@@ -19,6 +19,8 @@ public class Wintermute {
 	public WolframObj theWolfram;
 	public HashMap<String, WikiObj> wikiList = new HashMap<String, WikiObj>();
 	
+	//Some constructors and whatnot
+	
 	public Wintermute()
 	{
 		this.theWolfram = new WolframObj(this.apiKey);
@@ -37,11 +39,13 @@ public class Wintermute {
 		wikiList.put("wikipedia", new WikiObj(wikiURL));
 	}
 	
+	//Add a wiki straight up
 	public void addWiki(String name, String wikiURL)
 	{
 		wikiList.put(name, new WikiObj(wikiURL));
 	}
 	
+	//Add a wiki by common name. Google the input and produce a wiki with the same name
 	public void addWikiByName(String name)
 	{
 		String google = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=";
@@ -61,6 +65,8 @@ public class Wintermute {
 		System.out.println(results.getResponseData().getResults().get(0).getUrl().substring(7, results.getResponseData().getResults().get(0).getUrl().length()-1));
 	}
 	
+	//Google and add a wiki by its common name, while specifing a script path.
+	@Deprecated
 	public void addWikiByName(String name, String scriptPath)
 	{
 		String google = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=";
@@ -80,61 +86,19 @@ public class Wintermute {
 		System.out.println(results.getResponseData().getResults().get(0).getUrl().substring(7, results.getResponseData().getResults().get(0).getUrl().length()-1));
 	}
 	
+	//Retrieve wiki by name. Almost useless
 	public WikiObj getWiki(String name)
 	{
 		return wikiList.get(name);
 	}
 	
-		/*public String formatWikitext(String wikiText)
-		{
-			String revise = wikiText.replace("\n", "");
-			while(revise.contains("[") || revise.contains("]"))
-			{
-				if(revise.substring(0, revise.indexOf("]]")).contains("[[")){
-					String subRevise = revise.substring(revise.indexOf("[[")+2, revise.indexOf("]]"));
-					if(subRevise.contains("|") && subRevise.indexOf("|") == subRevise.lastIndexOf("|"))
-					{
-						String goodRevise = subRevise.substring(subRevise.indexOf("|")).replace("|", "");
-						revise = revise.replace("[["+subRevise+"]]", goodRevise);
-					}else
-					if(subRevise.indexOf("|") == subRevise.lastIndexOf("|"))
-					{
-						revise = revise.replace("[["+subRevise+"]]", subRevise);
-					}else
-					{
-						revise = revise.replace("[["+subRevise+"]]", "");
-					}
-				}else
-				{
-					if(!revise.substring(0, revise.indexOf("]")).contains("["))
-						revise = revise.replace(revise.substring(0, revise.indexOf("]")+2), revise.substring(0, revise.indexOf("]")+2).replace("[", "").replace("]", ""));
-				}
-			}
-			while(revise.contains("{") || revise.contains("}"))
-			{
-				if(revise.contains("}"))
-					if(!revise.substring(0, revise.indexOf("}")).contains("{"))
-						revise = revise.replace(revise.substring(revise.indexOf("|"), revise.indexOf("}")+2),"");
-				if(revise.contains("{") && revise.contains("}")){
-					String subRevise = revise.substring(revise.indexOf("{")+2, revise.indexOf("}"));
-				revise = revise.replace("{{"+subRevise+"}}", "");}
-			}
-			while(revise.contains("<") || revise.contains(">"))
-			{
-				if(revise.contains(">"))
-					if(!revise.substring(0, revise.indexOf(">")).contains("<"))
-						revise = revise.replace(revise.substring(0, revise.indexOf(">")+1), revise.substring(0, revise.indexOf(">")+2).replace("<", "").replace(">", ""));
-				String subRevise = revise.substring(revise.indexOf("<")+1, revise.indexOf(">"));
-				revise = revise.replace("<"+subRevise+">", "");
-			}
-			return revise.replace("'", "").replace("[", "").replace("]", "").replace("\"", "").replace("{", "").replace("}", "").replace("<", "").replace(">", "");
-		}*/
-	
+	//Return the rendered plaintext of a wikipedia article
 	public String getArticle(WikiObj theWiki, String article)
 	{
 		return Jsoup.parse(theWiki.content(article)).text();
 	}
-	
+
+	//Return current clipboard contents
 	public static String getClipboard()
 	{
 		try {
@@ -145,6 +109,7 @@ public class Wintermute {
 		return null;
 	}
 	
+	//Output a string to the file of your choice
 	public void writeStringFile(File file, String textToWrite) throws IOException
 	{
 		PrintWriter out = new PrintWriter(new FileWriter(file)); 
@@ -152,7 +117,7 @@ public class Wintermute {
 		out.close();
 	}
 }
-
+//Class that contains methods for googling
 class GoogleResults {
 
     private ResponseData responseData;

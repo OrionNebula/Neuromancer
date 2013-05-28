@@ -6,8 +6,12 @@ import java.net.URL;
 import java.net.URLEncoder; 
 import org.json.simple.*; // json package, download at http://code.google.com/p/json-simple/ 
 
+//Oh dear God what have I done
 public class Thesaurus { 
+	//URL of API
 	public static String endpoint = "http://thesaurus.altervista.org/thesaurus/v1"; 
+	
+	//Request things and retrun them
 	public static String[] getPartsOfSpeech(String word) {
 		String[] toReturn = null;
 	    try { 

@@ -1,5 +1,6 @@
 package neuromancer.voice;
 
+import java.awt.Desktop;
 import java.io.File;
 
 import neuromancer.core.Neuromancer;
@@ -7,7 +8,14 @@ import neuromancer.core.Neuromancer;
 import org.jaudiotagger.tag.FieldKey;
 
 import wintermute.core.Wintermute;
-import wintermute.data.*;
+import wintermute.data.DataSet;
+import wintermute.data.ExecutionFacilitator;
+import wintermute.data.Node;
+import wintermute.data.NodeFile;
+import wintermute.data.NodeImage;
+import wintermute.data.NodeMusic;
+import wintermute.data.NodePlaintext;
+import wintermute.data.NodeWiki;
 import wintermute.music.MP3;
 import wintermute.wikipedia.WikiObj;
 
@@ -22,8 +30,10 @@ public class VoiceActor {
 		int verbLoc = findFirst(input, "verb");
 		String actionGuess = cutInput[verbLoc];
 		System.out.println(actionGuess);
+		//Handle that stuff!
 		switch(actionGuess.toLowerCase())
 		{
+		//Grab wikitext to a node
 		case "retrieve":
 			WikiObj searchWiki;
 			if(cutInput[verbLoc+2].toLowerCase().equals("wikipedia"))
@@ -36,6 +46,14 @@ public class VoiceActor {
 			Neuromancer.nodes.get(cutInput[verbLoc+1]).store(Neuromancer.theSet.setPath+"/"+cutInput[verbLoc+1]+".node");
 			Neuromancer.speechSynth.speak(cutInput[verbLoc+2]+"'s article on "+cutInput[verbLoc+1]+" stored within data set "+Neuromancer.theSet.setName);
 			break;
+		case "obtain":
+			WikiObj imageWiki;
+				Neuromancer.wintermute.addWikiByName(cutInput[verbLoc+2]+" wiki");
+				imageWiki = Neuromancer.wintermute.getWiki(cutInput[verbLoc+2]+" wiki");
+			Neuromancer.nodes.put(cutInput[verbLoc+1], new NodeImage(imageWiki.getFormalImageByIndex(cutInput[verbLoc+1], 0)));
+			Neuromancer.nodes.get(cutInput[verbLoc+1]).store(Neuromancer.theSet.setPath+"/"+cutInput[verbLoc+1]+".node");
+			Neuromancer.speechSynth.speak(cutInput[verbLoc+2]+"'s image for "+cutInput[verbLoc+1]+" stored within data set "+Neuromancer.theSet.setName);
+			break;
 		//Make a node do whatever it is it does
 		case "activate":
 			String useType = cutInput[verbLoc+1];
@@ -44,13 +62,16 @@ public class VoiceActor {
 			{
 			case "music":
 				NodeMusic musicNode = (NodeMusic)Neuromancer.nodes.get(mName);
-				//Neuromancer.nodes.get(mName)
+				if(musicNode == null)
+				{
+					Neuromancer.speechSynth.speak(mName+" could not be played. Was it initialized?");
+					break;
+				}
 				MP3 tmpFile = new MP3(new File(musicNode.path));
 				if(!tmpFile.audioTags.getFirst(FieldKey.ARTIST).equals(""))
 					Neuromancer.speechSynth.speak("Playing "+tmpFile.title+" by "+tmpFile.audioTags.getFirst(FieldKey.ARTIST));
 				else
 					Neuromancer.speechSynth.speak("Playing "+tmpFile.title);
-				Thread.sleep(2000);
 				MP3.play(tmpFile);
 				break;
 			case "wiki":
@@ -58,20 +79,46 @@ public class VoiceActor {
 				Neuromancer.wintermute.writeStringFile(new File(mName+".txt"), wikiNode.storedSection);
 				Neuromancer.speechSynth.speak(wikiNode.wikiName+"'s article on "+wikiNode.articleName+" written to "+wikiNode.articleName+".txt");
 				break;
+			case "file":
+				NodeFile fileNode = (NodeFile)Neuromancer.nodes.get(mName);
+				if(fileNode == null)
+				{
+					Neuromancer.speechSynth.speak(mName+" could not be opened. Was it initialized?");
+					break;
+				}
+				Desktop.getDesktop().open(new File(fileNode.path));
+				Neuromancer.speechSynth.speak("Now opening "+(new File(fileNode.path)).getName());
+				break;
+			case "image":
+				NodeImage imageNode = (NodeImage)Neuromancer.nodes.get(mName);
+				if(imageNode == null)
+				{
+					Neuromancer.speechSynth.speak(mName+" could not be displayed. Was it initialized?");
+					break;
+				}
+				Neuromancer.speechSynth.speak(mName+" should now be displayed.");
+				Neuromancer.anImage = imageNode;
+//				Neuromancer.theGraphics.drawImage(imageNode.nodeImage.getImage(), 0, 0, 50, 50, imageNode.nodeImage.getImageObserver());
+				break;
 			}
 			break;
 		//Say the specified node outloud
 		case "say":
 			String sayType = cutInput[verbLoc+1];
-			String sName = input.substring(input.indexOf(cutInput[verbLoc+2]),input.length()).toString();
+			String sName = input.substring(input.indexOf(cutInput[verbLoc+1]),input.length()).toString();
 			switch(sayType.toLowerCase())
 			{
 			case "music":
 				NodeMusic sayMusic = (NodeMusic)Neuromancer.nodes.get(sName);
-				Neuromancer.speechSynth.speak(sayMusic.nodeName+" represents "+(new File(sayMusic.path)).getName()+", or "+);
+				Neuromancer.speechSynth.speak(sayMusic.nodeName+" represents "+(new File(sayMusic.path)).getName()+", or "+(new MP3(new File(sayMusic.path))).title);
 				break;
 			case "wiki":
 				NodeWiki sayWiki = ((NodeWiki)Neuromancer.nodes.get(sName));
+				if(sayWiki == null)
+				{
+					Neuromancer.speechSynth.speak(sName+" could not be dictated. Was it initialized?");
+					break;
+				}
 				Neuromancer.speechSynth.speak("Dictating "+sayWiki.wikiName+"'s article on "+sayWiki.articleName+". "+sayWiki.storedSection);
 				break;
 			}
@@ -153,19 +200,19 @@ public class VoiceActor {
 				theNode = (NodeMusic)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
 				break;
 			case "file":
-				tmpNode = theNode = (NodeFile)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
+				theNode = (NodeFile)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
 				break;
 			case "image":
-				tmpNode = theNode = (NodeImage)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
+				theNode = (NodeImage)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
 				break;
 			case "plaintext":
-				tmpNode = theNode = (NodePlaintext)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
+				theNode = (NodePlaintext)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
 				break;
 			case "text":
-				tmpNode = theNode = (NodePlaintext)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
+				theNode = (NodePlaintext)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
 				break;
 			case "wiki":
-				tmpNode = theNode = (NodeWiki)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
+				theNode = (NodeWiki)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
 				break;
 			}
 			System.out.println("Bringing "+gName+".node into memory");
@@ -209,11 +256,13 @@ public class VoiceActor {
 		}
 	}
 	
+	//Act on text that was not refined prior
 	public static void actOnRaw(String rawInput) throws Exception
 	{
 		act(RefinedVoice.refineVoice(rawInput));
 	}
 	
+	//Get the first word of a certain part of speech
 	private static int findFirst(String input, String type)
 	{
 		String[] words = RefinedVoice.cut(input, " ");

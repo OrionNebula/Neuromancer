@@ -8,6 +8,7 @@ public class AudioInput {
 	
 	public static Microphone theMic = null;
 	
+	//Duh
 	public static void startInput(String toStore)
 	{
 		Microphone theMicrophone = new Microphone(AudioFileFormat.Type.WAVE);
@@ -19,6 +20,7 @@ public class AudioInput {
 		}
 	}
 	
+	//Also, duh
 	public static void stopInput()
 	{
 		theMic.close();

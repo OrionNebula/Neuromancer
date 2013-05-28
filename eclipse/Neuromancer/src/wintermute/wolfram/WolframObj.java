@@ -2,6 +2,7 @@ package wintermute.wolfram;
 
 import com.wolfram.alpha.*;
 
+@Deprecated
 public class WolframObj {
 	
 	public String APIKey;

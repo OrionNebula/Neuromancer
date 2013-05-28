@@ -1,9 +1,10 @@
 package neuromancer.voice;
 
-import java.io.IOException;
+import wintermute.music.MP3;
 
 public class SpeechSynthesis {
 	
+	//Where to find the synth
 	public String exePath = "C:\\Program Files\\eSpeak\\command_line\\espeak.exe";
 	
 	public SpeechSynthesis(String exePath)
@@ -12,15 +13,19 @@ public class SpeechSynthesis {
 	}
 	
 	public SpeechSynthesis()
-	{
-	}
+	{}
 	
+	//Call synth with params
 	public void speak(String textToSay)
 	{
 		try {
-			@SuppressWarnings("unused")
+			if(MP3.thePlayer != null)
+				MP3.thePlayer.setVolume(MP3.thePlayer.getVolume()/4);
 			Process p = Runtime.getRuntime().exec(this.exePath+" -vmb-en1 -s125 \""+textToSay+"\"");
-		} catch (IOException e) {
+			p.waitFor();
+			if(MP3.thePlayer != null)
+				MP3.thePlayer.setVolume(MP3.thePlayer.getVolume()*4);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

@@ -4,6 +4,7 @@ import com.darkprograms.speech.recognizer.Recognizer;
 
 public class RawVoice {
 	
+	//Retrives the transcoded voice
 	public static String getVoice(String voiceData)
 	{
 		Recognizer theRecognizer = new Recognizer();

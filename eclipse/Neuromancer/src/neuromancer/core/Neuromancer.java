@@ -2,15 +2,16 @@ package neuromancer.core;
 
 import java.applet.Applet;
 import java.awt.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import com.melloware.jintellitype.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.HashMap;
 
 import neuromancer.voice.*;
 import wintermute.core.Wintermute;
 import wintermute.data.*;
+import wintermute.music.MP3;
+
+import com.melloware.jintellitype.*;
 
 public class Neuromancer extends Applet implements HotkeyListener{
 	//Required by applets
@@ -26,9 +27,14 @@ public class Neuromancer extends Applet implements HotkeyListener{
 	//Status color, changed based on action
 	public static Color statusColor = Color.green;
 	//Cached graphics object
-	public Graphics theGraphics;
+	public static Graphics theGraphics;
 	//The current operating DataSet
 	public static DataSet theSet = DataSet.root;
+	//The image to be drawn
+	public static NodeImage anImage;
+	//last mouse coords
+	private int x;
+	private int y;
 	
 	//Executed by applets at start
 	public void init()
@@ -44,52 +50,57 @@ public class Neuromancer extends Applet implements HotkeyListener{
 	//Draw the new status color and string
 	public void paint(Graphics g)
 	{
-		this.theGraphics = g;
+		theGraphics = g;
 		g.drawString(action, 0, this.getHeight()-5);
 		g.setColor(statusColor);
 		g.fillRect(0, 0, 50, 50);
+		if(anImage != null)
+			g.drawImage(anImage.nodeImage.getImage(), 50, 0, null);
+		theGraphics.setColor(Color.red);
+		theGraphics.drawOval(x-5, y-5, 10, 10);
+	}
+	
+	//Movement
+	public boolean mouseMove(Event e, int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+		this.repaint();
+		return true;
 	}
 	
 	//Handle buttons
 	public boolean mouseDown(Event e, int x,int y)
 	{
 		Rectangle rect = new Rectangle(50,50);
+		//Stop listening if currently listening
 		if(rect.contains(x, y) && action.equals("Listening"))
 		{
 			statusColor = Color.yellow;
 			action = "Acting";
 			this.repaint();
 			AudioInput.stopInput();
+			MP3.resume();
 			try {
 				VoiceActor.actOnRaw(RawVoice.getVoice("tmp.wav"));
 			} catch (Exception e1) {
 				e1.printStackTrace();
-				System.err.println("[NEUROMANCER] Some kind of recognition error. Internet connection?");
-				speechSynth.speak("");
-				try {
-				    URL url = new URL("http://www.google.com");
-				    URLConnection connection = url.openConnection();
-
-				    if(connection.getContentLength() == -1){
-				    	System.err.println("[NEUROMANCER] Almost certainly a connection issue..");
-				    }
-				  } 
-				  catch (Exception q) {
-				      System.err.println("[NEUROMANCER] Caught a(n)"+q.getClass().getCanonicalName());
-				  }
+				speechSynth.speak("A "+e1.getClass().getName()+" was caught trying to preform your action.");
 			}
 			System.out.println("Done acting");
 			statusColor = Color.green;
 			action = "Ready";
 			this.repaint();
 		}else
-		if(rect.contains(x, y) && action.equals("Ready"))
-		{
-			statusColor = Color.red;
-			action = "Listening";
-			this.repaint();
-			AudioInput.startInput("tmp.wav");
-		}
+		//Listen if stopped and not just stopped
+			if(rect.contains(x, y) && action.equals("Ready"))
+			{
+				MP3.pause();
+				statusColor = Color.red;
+				action = "Listening";
+				this.repaint();
+				AudioInput.startInput("tmp.wav");
+			}
 		return true;
 	}
 

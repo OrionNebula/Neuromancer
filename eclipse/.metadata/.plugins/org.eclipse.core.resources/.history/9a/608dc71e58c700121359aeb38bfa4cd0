@@ -1,0 +1,27 @@
+package wintermute.data;
+
+import java.awt.image.*;
+import java.io.*;
+import javax.swing.*;
+
+import javax.imageio.ImageIO;
+
+public class NodeImage extends Node implements Serializable {
+	private static final long serialVersionUID = 1L;
+	public String nodeType = "Image Node";
+	public ImageIcon nodeImage;
+	
+	public NodeImage(String imagePath)
+	{
+		try {
+			nodeImage = new ImageIcon(ImageIO.read(new File(imagePath)));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public NodeImage(BufferedImage theImage)
+	{
+		this.nodeImage = theImage;
+	}
+}

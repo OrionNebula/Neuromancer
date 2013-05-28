@@ -11,6 +11,7 @@ public class NodeWiki extends Node implements Serializable {
 	public String wikiName;
 	public int sectionNum;
 	
+	//Usual, constructors
 	public NodeWiki(String contents, String wiki, String name, int section)
 	{
 		this.storedSection = contents;

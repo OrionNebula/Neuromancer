@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
-<fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
-<fullyQualifiedTypeName name="java.util.Random"/>
-<fullyQualifiedTypeName name="org.apache.batik.transcoder.svg2svg.SVGTranscoder"/>
 <fullyQualifiedTypeName name="org.w3c.dom.Document"/>
 <fullyQualifiedTypeName name="org.apache.batik.transcoder.image.JPEGTranscoder"/>
 <fullyQualifiedTypeName name="org.wikipedia.Wiki"/>
@@ -31,7 +27,6 @@
 <fullyQualifiedTypeName name="neuromancer.voice.RefinedVoice"/>
 <fullyQualifiedTypeName name="neuromancer.voice.RawVoice"/>
 <fullyQualifiedTypeName name="wintermute.data.ExecutionFacilitator"/>
-<fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
 <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="java.io.ObjectOutputStream"/>
 <fullyQualifiedTypeName name="neuromancer.core.Neuromancer"/>
@@ -45,7 +40,6 @@
 <fullyQualifiedTypeName name="neuromancer.voice.AudioInput"/>
 <fullyQualifiedTypeName name="java.util.Scanner"/>
 <fullyQualifiedTypeName name="javazoom.jl.player.Player"/>
-<fullyQualifiedTypeName name="wintermute.music.MP3"/>
 <fullyQualifiedTypeName name="org.jaudiotagger.tag.FieldKey"/>
 <fullyQualifiedTypeName name="javafx.embed.swing.JFXPanel"/>
 <fullyQualifiedTypeName name="java.awt.Toolkit"/>
@@ -60,4 +54,10 @@
 <fullyQualifiedTypeName name="neuromancer.voice.VoiceActor"/>
 <fullyQualifiedTypeName name="wintermute.data.DataSet"/>
 <fullyQualifiedTypeName name="org.jsoup.Jsoup"/>
+<fullyQualifiedTypeName name="java.awt.Desktop"/>
+<fullyQualifiedTypeName name="wintermute.music.MP3"/>
+<fullyQualifiedTypeName name="java.awt.Robot"/>
+<fullyQualifiedTypeName name="com.sun.glass.events.KeyEvent"/>
+<fullyQualifiedTypeName name="java.awt.Component"/>
+<fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
 </qualifiedTypeNameHistroy>

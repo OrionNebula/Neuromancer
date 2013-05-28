@@ -19,6 +19,7 @@ public class MP3 {
 	
 	public static MediaPlayer thePlayer;
 	
+	//Constructors and whatnot
 	public MP3(File pathParam)
 	{
 		this.path = pathParam;
@@ -26,13 +27,13 @@ public class MP3 {
 		try {
 			audio = AudioFileIO.read(pathParam);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.audioTags = audio.getTag();
 		this.title = this.audioTags.getFirst(FieldKey.TITLE);
 	}
 	
+	//Play from scratch
 	public static void play(MP3 mp3File)
 	{
 		new JFXPanel();
@@ -42,8 +43,24 @@ public class MP3 {
 		System.out.println("Now playing "+media.getSource());
 	}
 	
+	//Resume a paused sound
+	public static void resume()
+	{
+		if(thePlayer != null)
+			thePlayer.play();
+	}
+	
+	//Pause a resumed sound
+	public static void pause()
+	{
+		if(thePlayer != null)
+			thePlayer.pause();
+	}
+	
+	//Stop a sound
 	public static void stop()
 	{
 		thePlayer.stop();
+		thePlayer = null;
 	}
 }
