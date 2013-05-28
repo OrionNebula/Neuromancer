@@ -2,15 +2,14 @@ package neuromancer.voice;
 
 import java.io.File;
 
+import neuromancer.core.Neuromancer;
+
 import org.jaudiotagger.tag.FieldKey;
 
-import com.melloware.jintellitype.*;
-
-import neuromancer.core.*;
 import wintermute.core.Wintermute;
 import wintermute.data.*;
-import wintermute.music.*;
-import wintermute.wikipedia.*;
+import wintermute.music.MP3;
+import wintermute.wikipedia.WikiObj;
 
 
 public class VoiceActor {
@@ -19,34 +18,33 @@ public class VoiceActor {
 	{
 		System.out.println("Acting on \""+input+"\"");
 		String[] cutInput = RefinedVoice.cut(input, " ");
+		//Get the first verb's location in the array
 		int verbLoc = findFirst(input, "verb");
 		String actionGuess = cutInput[verbLoc];
 		System.out.println(actionGuess);
 		switch(actionGuess.toLowerCase())
 		{
-		case "search":
+		case "retrieve":
 			WikiObj searchWiki;
-			if(cutInput[verbLoc+1].equals("Wikipedia"))
+			if(cutInput[verbLoc+2].toLowerCase().equals("wikipedia"))
 				searchWiki = Neuromancer.wintermute.getWiki("wikipedia");
 			else{
-				Neuromancer.wintermute.addWikiByName(cutInput[verbLoc+1]);
-				searchWiki = Neuromancer.wintermute.getWiki(cutInput[verbLoc+1]);
+				Neuromancer.wintermute.addWikiByName(cutInput[verbLoc+2]+" wiki");
+				searchWiki = Neuromancer.wintermute.getWiki(cutInput[verbLoc+2]+" wiki");
 			}
-			int index = 0;
-			NodeWiki tmpWiki = new NodeWiki(Neuromancer.wintermute.formatWikitext(searchWiki.sectionContent(cutInput[verbLoc+2],index)));
-			Neuromancer.speechSynth.speak(cutInput[verbLoc+1]+"'s article on "+cutInput[verbLoc+2]+" stored to temporary node.");
-			Neuromancer.nodeCache = tmpWiki;
+			Neuromancer.nodes.put(cutInput[verbLoc+1], new NodeWiki(Neuromancer.wintermute.getArticle(searchWiki, cutInput[verbLoc+1]), cutInput[verbLoc+2], cutInput[verbLoc+1], 0));
+			Neuromancer.nodes.get(cutInput[verbLoc+1]).store(Neuromancer.theSet.setPath+"/"+cutInput[verbLoc+1]+".node");
+			Neuromancer.speechSynth.speak(cutInput[verbLoc+2]+"'s article on "+cutInput[verbLoc+1]+" stored within data set "+Neuromancer.theSet.setName);
 			break;
+		//Make a node do whatever it is it does
 		case "activate":
 			String useType = cutInput[verbLoc+1];
+			String mName = input.substring(input.indexOf(cutInput[verbLoc+2]),input.length()).toString();
 			switch(useType.toLowerCase())
 			{
 			case "music":
-				String mName = input.substring(input.indexOf(cutInput[verbLoc+2]),input.length()).toString();
-				System.out.println(mName);
 				NodeMusic musicNode = (NodeMusic)Neuromancer.nodes.get(mName);
 				//Neuromancer.nodes.get(mName)
-				System.out.println(musicNode.path);
 				MP3 tmpFile = new MP3(new File(musicNode.path));
 				if(!tmpFile.audioTags.getFirst(FieldKey.ARTIST).equals(""))
 					Neuromancer.speechSynth.speak("Playing "+tmpFile.title+" by "+tmpFile.audioTags.getFirst(FieldKey.ARTIST));
@@ -55,21 +53,54 @@ public class VoiceActor {
 				Thread.sleep(2000);
 				MP3.play(tmpFile);
 				break;
+			case "wiki":
+				NodeWiki wikiNode = (NodeWiki)Neuromancer.nodes.get(mName);
+				Neuromancer.wintermute.writeStringFile(new File(mName+".txt"), wikiNode.storedSection);
+				Neuromancer.speechSynth.speak(wikiNode.wikiName+"'s article on "+wikiNode.articleName+" written to "+wikiNode.articleName+".txt");
+				break;
 			}
 			break;
-		case "terminate":
-			MP3.stop();
-			Neuromancer.speechSynth.speak("Music stopped.");
+		//Say the specified node outloud
+		case "say":
+			String sayType = cutInput[verbLoc+1];
+			String sName = input.substring(input.indexOf(cutInput[verbLoc+2]),input.length()).toString();
+			switch(sayType.toLowerCase())
+			{
+			case "music":
+				NodeMusic sayMusic = (NodeMusic)Neuromancer.nodes.get(sName);
+				Neuromancer.speechSynth.speak(sayMusic.nodeName+" represents "+(new File(sayMusic.path)).getName()+", or "+);
+				break;
+			case "wiki":
+				NodeWiki sayWiki = ((NodeWiki)Neuromancer.nodes.get(sName));
+				Neuromancer.speechSynth.speak("Dictating "+sayWiki.wikiName+"'s article on "+sayWiki.articleName+". "+sayWiki.storedSection);
+				break;
+			}
 			break;
+		//Stop everything
+		case "terminate":
+			ExecutionFacilitator.kill("espeak.exe");
+			MP3.stop();
+			Thread.sleep(500);
+			Neuromancer.speechSynth.speak("Stopped.");
+			break;
+		//Change operating directory
+		case "operate":
+			String oName = input.substring(input.indexOf(cutInput[verbLoc+1]),input.length());
+			Neuromancer.theSet = DataSet.load(oName+".dataset");
+			Neuromancer.speechSynth.speak("Now operating within dataset "+oName);
+			break;
+		//Exit the app
 		case "exit":
 			Neuromancer.speechSynth.speak("Exit command recieved. Goodbye!");
 			System.out.println("Will now exit!");
 			System.exit(0);
 			break;
+		//Create a new node
 		case "create":
 			String type = cutInput[verbLoc+1];
 			String name = input.substring(input.indexOf(cutInput[verbLoc+2]),input.length());
 			Node tmpNode = null;
+			DataSet tmpSet = null;
 			switch(type.toLowerCase())
 			{
 			case "music":
@@ -90,33 +121,51 @@ public class VoiceActor {
 			case "wiki":
 				tmpNode = new NodeWiki(Wintermute.getClipboard());
 				break;
+			case "set":
+				tmpSet = new DataSet(Wintermute.getClipboard(),name);
+				break;
+			case "dataset":
+				tmpSet = new DataSet(Wintermute.getClipboard(),name);
+				break;
+			default:
 			}
-			tmpNode.nodeName = name;
-			tmpNode.store(name+".node");
-			Neuromancer.speechSynth.speak(type+" node "+name+" created with clipboard contents");
+			if(tmpNode != null){
+				tmpNode.nodeName = name;
+				tmpNode.store(Neuromancer.theSet.setPath+"/"+name+".node");
+				Neuromancer.speechSynth.speak(type+" node "+name+" created with clipboard contents");
+				break;
+			}
+			if(tmpSet != null)
+			{
+				tmpSet.store(name+".dataset");
+				Neuromancer.speechSynth.speak("Data set "+name+" created with clipboard contents");
+				break;
+			}
+			
 			break;
+		//Load a node into the HashMap
 		case "add":
 			Node theNode = null;
 			String gName = input.substring(input.indexOf(cutInput[verbLoc+2]),input.length());
 			switch(cutInput[verbLoc+1].toLowerCase())
 			{
 			case "music":
-				theNode = (NodeMusic)Node.load(gName+".node");
+				theNode = (NodeMusic)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
 				break;
 			case "file":
-				tmpNode = theNode = (NodeFile)Node.load(gName+".node");
+				tmpNode = theNode = (NodeFile)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
 				break;
 			case "image":
-				tmpNode = theNode = (NodeImage)Node.load(gName+".node");
+				tmpNode = theNode = (NodeImage)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
 				break;
 			case "plaintext":
-				tmpNode = theNode = (NodePlaintext)Node.load(gName+".node");
+				tmpNode = theNode = (NodePlaintext)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
 				break;
 			case "text":
-				tmpNode = theNode = (NodePlaintext)Node.load(gName+".node");
+				tmpNode = theNode = (NodePlaintext)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
 				break;
 			case "wiki":
-				tmpNode = theNode = (NodeWiki)Node.load(gName+".node");
+				tmpNode = theNode = (NodeWiki)Node.load(Neuromancer.theSet.setPath+"/"+gName+".node");
 				break;
 			}
 			System.out.println("Bringing "+gName+".node into memory");
@@ -125,16 +174,19 @@ public class VoiceActor {
 			String nodeType = theNode.nodeType;
 			Neuromancer.speechSynth.speak("Initialized "+nodeType+" "+gName);
 			break;
+		//No verbs here!
 		case "":
 			System.err.println("[ACT] No verbs were found! Malformed input?");
 			Neuromancer.speechSynth.speak("I didn't understand your input.");
 			break;
+		//List all nodes within the current session
 		case "list":
 			String dirNodes = "";
 			String activeNodes = "";
-			File[] theFiles = new File(".").listFiles();
+			File[] theFiles = new File(Neuromancer.theSet.setPath).listFiles();
 			for(File element : theFiles)
 			{
+				
 				if(element.getName().contains(".node"))
 					dirNodes += ", "+element.getName().replace(".node", "");
 			}
@@ -143,8 +195,13 @@ public class VoiceActor {
 				Node forNode = (Node)element;
 				activeNodes += ", "+forNode.nodeName;
 			}
-			Neuromancer.speechSynth.speak("Available nodes: "+dirNodes+". Loaded nodes: "+activeNodes);
+			if(activeNodes.equals(""))
+				activeNodes = "none";
+			if(dirNodes.equals(""))
+				dirNodes = "none";
+			Neuromancer.speechSynth.speak("Available nodes: "+dirNodes+". Loaded nodes: "+activeNodes+". These nodes exist within "+Neuromancer.theSet.setName);
 			break;
+		//A verb was found but not recognized
 		default:
 			System.err.println("[ACT] \""+actionGuess+"\" could not be handled!");
 			Neuromancer.speechSynth.speak(actionGuess+" doesn't have any valid actions!");

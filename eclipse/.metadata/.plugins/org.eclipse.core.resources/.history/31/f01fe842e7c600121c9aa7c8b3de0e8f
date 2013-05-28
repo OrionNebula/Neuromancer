@@ -1,0 +1,112 @@
+package neuromancer.core;
+
+import java.applet.Applet;
+import java.awt.*;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import com.melloware.jintellitype.*;
+
+import neuromancer.voice.*;
+import wintermute.core.Wintermute;
+import wintermute.data.*;
+
+public class Neuromancer extends Applet implements HotkeyListener{
+	//Required by Applets
+	private static final long serialVersionUID = 1L;
+	//Wintermute instance, static to allow global access
+	public static Wintermute wintermute = new Wintermute();
+	//Speech synthesizer
+	public static SpeechSynthesis speechSynth = new SpeechSynthesis("C:\\Program Files (x86)\\eSpeak\\command_line\\espeak.exe");
+	//Displayed constantly
+	public static String action = "Ready";
+	//Cached node that will be written on request
+	public static Node nodeCache;
+	//Array of named nodes to be cached
+	public static HashMap<String, Node> nodes = new HashMap<String, Node>();
+	//Status color, changed based on action
+	public static Color statusColor = Color.green;
+	//Cached graphics object
+	public Graphics theGraphics;
+	
+	//Executed by applets at start
+	public void init()
+	{
+		//Resize
+		this.setSize(640, 480);
+		JIntellitype.setLibraryLocation(new File("JIntellitype64.dll"));
+		JIntellitype.getInstance().registerHotKey(1, JIntellitype.MOD_WIN, (int)'N');
+		JIntellitype.getInstance().addHotKeyListener(this);
+	}
+	
+	public void paint(Graphics g)
+	{
+		this.theGraphics = g;
+		g.drawString(action, 0, this.getHeight()-5);
+		g.setColor(statusColor);
+		g.fillRect(0, 0, 50, 50);
+	}
+	
+	/*public void repaint()
+	{
+		this.theGraphics.setColor(new Color(0,0,0));
+		this.theGraphics.fillRect(0, 0, this.getWidth(), this.getHeight());
+		this.paint(this.theGraphics);
+	}*/
+	
+	public boolean mouseDown(Event e, int x,int y)
+	{
+		Rectangle rect = new Rectangle(50,50);
+		if(rect.contains(x, y) && action.equals("Listening"))
+		{
+			statusColor = Color.yellow;
+			action = "Acting";
+			this.repaint();
+			AudioInput.stopInput();
+			try {
+				VoiceActor.actOnRaw(RawVoice.getVoice("tmp.wav"));
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				System.err.println("[NEUROMANCER] Some kind of recognition error. Internet connection?");
+				speechSynth.speak("");
+				try {
+				    URL url = new URL("http://www.google.com");
+				    URLConnection connection = url.openConnection();
+
+				    if(connection.getContentLength() == -1){
+				    	System.err.println("[NEUROMANCER] Almost certainly a connection issue..");
+				    }
+				  } 
+				  catch (Exception q) {
+				      System.err.println("[NEUROMANCER] Caught a(n)"+q.getClass().getCanonicalName());
+				  }
+			}
+			System.out.println("Done acting");
+			statusColor = Color.green;
+			action = "Ready";
+			this.repaint();
+		}else
+		if(rect.contains(x, y) && action.equals("Ready"))
+		{
+			statusColor = Color.red;
+			action = "Listening";
+			this.repaint();
+			AudioInput.startInput("tmp.wav");
+		}
+		return true;
+	}
+
+	@Override
+	public void onHotKey(int identifier) {
+		switch(identifier)
+		{
+		case 1:
+			this.mouseDown(null, 1, 1);
+			break;
+		default:
+			System.err.println("We were given a strange hotkey!");
+			break;
+		}
+	}
+}

@@ -6,6 +6,8 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import org.jsoup.Jsoup;
+
 import wintermute.wikipedia.WikiObj;
 import wintermute.wolfram.WolframObj;
 
@@ -83,63 +85,54 @@ public class Wintermute {
 		return wikiList.get(name);
 	}
 	
-	public String formatWikitext(String wikiText)
-	{
-		String revise = wikiText;
-		while(revise.contains("<") || revise.contains(">"))
+		/*public String formatWikitext(String wikiText)
 		{
-			System.out.println("HTML:"+revise);
-			String subRevise = revise.substring(revise.indexOf("<")+1, revise.indexOf(">"));
-			revise = revise.replace("<"+subRevise+">", "");
-			if(revise.contains(">"))
-				if(!revise.substring(0, revise.indexOf(">")).contains("<"))
-					revise = revise.substring(revise.indexOf(">")+1);
-		}
-		while(revise.contains("{") || revise.contains("}"))
-		{
-			System.out.println("BRAKETS:"+revise);
-			if(revise.substring(0, revise.indexOf("}}")).contains("{{")){
-				String subRevise = revise.substring(revise.indexOf("{{")+2, revise.indexOf("]]"))/*.replace("[", "").replace("]", "")*/;
-				revise = revise.replace("{{"+subRevise+"}}", subRevise);
-			}else
+			String revise = wikiText.replace("\n", "");
+			while(revise.contains("[") || revise.contains("]"))
 			{
-				revise = revise.substring(revise.indexOf("}}")+2);
-			}
-		}
-		/*while(revise.contains("{") || revise.contains("}"))
-		{
-			if(revise.contains("}"))
-				if(!revise.substring(0, revise.indexOf("}")).contains("{"))
-					revise = revise.substring(revise.indexOf("}")+1);
-			String subRevise = revise.substring(revise.indexOf("{"), revise.indexOf("}"));
-			System.out.println(subRevise);
-			revise = revise.replace("{"+subRevise.replace("{", "").replace("}", "")+"}", "").replace("{}", "");
-			
-		}*/
-		while(revise.contains("[") || revise.contains("]"))
-		{
-			System.out.println("BRAKETS:"+revise);
-			if(revise.substring(0, revise.indexOf("]]")).contains("[[")){
-				String subRevise = revise.substring(revise.indexOf("[[")+2, revise.indexOf("]]"))/*.replace("[", "").replace("]", "")*/;
-				if(subRevise.contains("|") && subRevise.indexOf("|") == subRevise.lastIndexOf("|"))
-				{
-					String goodRevise = subRevise.substring(subRevise.indexOf("|")).replace("|", "");
-					revise = revise.replace("[["+subRevise+"]]", goodRevise);
-				}else
-				if(subRevise.indexOf("|") == subRevise.lastIndexOf("|"))
-				{
-					revise = revise.replace("[["+subRevise+"]]", subRevise);
+				if(revise.substring(0, revise.indexOf("]]")).contains("[[")){
+					String subRevise = revise.substring(revise.indexOf("[[")+2, revise.indexOf("]]"));
+					if(subRevise.contains("|") && subRevise.indexOf("|") == subRevise.lastIndexOf("|"))
+					{
+						String goodRevise = subRevise.substring(subRevise.indexOf("|")).replace("|", "");
+						revise = revise.replace("[["+subRevise+"]]", goodRevise);
+					}else
+					if(subRevise.indexOf("|") == subRevise.lastIndexOf("|"))
+					{
+						revise = revise.replace("[["+subRevise+"]]", subRevise);
+					}else
+					{
+						revise = revise.replace("[["+subRevise+"]]", "");
+					}
 				}else
 				{
-					revise = revise.replace("[["+subRevise+"]]", "");
+					if(!revise.substring(0, revise.indexOf("]")).contains("["))
+						revise = revise.replace(revise.substring(0, revise.indexOf("]")+2), revise.substring(0, revise.indexOf("]")+2).replace("[", "").replace("]", ""));
 				}
-			}else
-			{
-				revise = revise.substring(revise.indexOf("]]")+2);
 			}
-		}
-		
-		return revise.replace("'", "").replace("[", "").replace("]", "").replace("\"", "").replace("{", "").replace("}", "").replace("<", "").replace(">", "");
+			while(revise.contains("{") || revise.contains("}"))
+			{
+				if(revise.contains("}"))
+					if(!revise.substring(0, revise.indexOf("}")).contains("{"))
+						revise = revise.replace(revise.substring(revise.indexOf("|"), revise.indexOf("}")+2),"");
+				if(revise.contains("{") && revise.contains("}")){
+					String subRevise = revise.substring(revise.indexOf("{")+2, revise.indexOf("}"));
+				revise = revise.replace("{{"+subRevise+"}}", "");}
+			}
+			while(revise.contains("<") || revise.contains(">"))
+			{
+				if(revise.contains(">"))
+					if(!revise.substring(0, revise.indexOf(">")).contains("<"))
+						revise = revise.replace(revise.substring(0, revise.indexOf(">")+1), revise.substring(0, revise.indexOf(">")+2).replace("<", "").replace(">", ""));
+				String subRevise = revise.substring(revise.indexOf("<")+1, revise.indexOf(">"));
+				revise = revise.replace("<"+subRevise+">", "");
+			}
+			return revise.replace("'", "").replace("[", "").replace("]", "").replace("\"", "").replace("{", "").replace("}", "").replace("<", "").replace(">", "");
+		}*/
+	
+	public String getArticle(WikiObj theWiki, String article)
+	{
+		return Jsoup.parse(theWiki.content(article)).text();
 	}
 	
 	public static String getClipboard()
@@ -150,6 +143,13 @@ public class Wintermute {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public void writeStringFile(File file, String textToWrite) throws IOException
+	{
+		PrintWriter out = new PrintWriter(new FileWriter(file)); 
+		out.print(textToWrite);
+		out.close();
 	}
 }
 

@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
-<fullyQualifiedTypeName name="javax.sound.sampled.AudioFileFormat"/>
-<fullyQualifiedTypeName name="javax.sound.sampled.AudioFileFormat.Type"/>
-<fullyQualifiedTypeName name="java.io.BufferedReader"/>
-<fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 <fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
 <fullyQualifiedTypeName name="java.util.Random"/>
@@ -15,7 +10,6 @@
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="org.apache.batik.transcoder.image.PNGTranscoder"/>
 <fullyQualifiedTypeName name="com.wolfram.alpha.WAImage"/>
-<fullyQualifiedTypeName name="java.net.URL"/>
 <fullyQualifiedTypeName name="neuromancer.voice.SpeechSynthesis"/>
 <fullyQualifiedTypeName name="wintermute.wolfram.WolframObj"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
@@ -48,7 +42,6 @@
 <fullyQualifiedTypeName name="wintermute.music.VLC"/>
 <fullyQualifiedTypeName name="com.echonest.api.v4.Audio"/>
 <fullyQualifiedTypeName name="org.jaudiotagger.tag.Tag"/>
-<fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="neuromancer.voice.AudioInput"/>
 <fullyQualifiedTypeName name="java.util.Scanner"/>
 <fullyQualifiedTypeName name="javazoom.jl.player.Player"/>
@@ -57,7 +50,14 @@
 <fullyQualifiedTypeName name="javafx.embed.swing.JFXPanel"/>
 <fullyQualifiedTypeName name="java.awt.Toolkit"/>
 <fullyQualifiedTypeName name="java.awt.datatransfer.DataFlavor"/>
-<fullyQualifiedTypeName name="neuromancer.voice.VoiceActor"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="wintermute.core.Wintermute"/>
+<fullyQualifiedTypeName name="java.awt.Event"/>
+<fullyQualifiedTypeName name="java.awt.Rectangle"/>
+<fullyQualifiedTypeName name="java.net.URL"/>
+<fullyQualifiedTypeName name="com.melloware.jintellitype.JIntellitype"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="neuromancer.voice.VoiceActor"/>
+<fullyQualifiedTypeName name="wintermute.data.DataSet"/>
+<fullyQualifiedTypeName name="org.jsoup.Jsoup"/>
 </qualifiedTypeNameHistroy>

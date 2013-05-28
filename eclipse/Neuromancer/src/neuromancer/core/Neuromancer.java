@@ -13,7 +13,7 @@ import wintermute.core.Wintermute;
 import wintermute.data.*;
 
 public class Neuromancer extends Applet implements HotkeyListener{
-	//Required by Applets
+	//Required by applets
 	private static final long serialVersionUID = 1L;
 	//Wintermute instance, static to allow global access
 	public static Wintermute wintermute = new Wintermute();
@@ -21,25 +21,27 @@ public class Neuromancer extends Applet implements HotkeyListener{
 	public static SpeechSynthesis speechSynth = new SpeechSynthesis("C:\\Program Files (x86)\\eSpeak\\command_line\\espeak.exe");
 	//Displayed constantly
 	public static String action = "Ready";
-	//Cached node that will be written on request
-	public static Node nodeCache;
 	//Array of named nodes to be cached
 	public static HashMap<String, Node> nodes = new HashMap<String, Node>();
 	//Status color, changed based on action
 	public static Color statusColor = Color.green;
 	//Cached graphics object
 	public Graphics theGraphics;
+	//The current operating DataSet
+	public static DataSet theSet = DataSet.root;
 	
 	//Executed by applets at start
 	public void init()
 	{
 		//Resize
 		this.setSize(640, 480);
+		//Register the [WINDOWS-KEY]+N hotkey
 		JIntellitype.setLibraryLocation(new File("JIntellitype64.dll"));
 		JIntellitype.getInstance().registerHotKey(1, JIntellitype.MOD_WIN, (int)'N');
 		JIntellitype.getInstance().addHotKeyListener(this);
 	}
 	
+	//Draw the new status color and string
 	public void paint(Graphics g)
 	{
 		this.theGraphics = g;
@@ -48,13 +50,7 @@ public class Neuromancer extends Applet implements HotkeyListener{
 		g.fillRect(0, 0, 50, 50);
 	}
 	
-	/*public void repaint()
-	{
-		this.theGraphics.setColor(new Color(0,0,0));
-		this.theGraphics.fillRect(0, 0, this.getWidth(), this.getHeight());
-		this.paint(this.theGraphics);
-	}*/
-	
+	//Handle buttons
 	public boolean mouseDown(Event e, int x,int y)
 	{
 		Rectangle rect = new Rectangle(50,50);
@@ -98,6 +94,7 @@ public class Neuromancer extends Applet implements HotkeyListener{
 	}
 
 	@Override
+	//Simulate button press on hotkey
 	public void onHotKey(int identifier) {
 		switch(identifier)
 		{

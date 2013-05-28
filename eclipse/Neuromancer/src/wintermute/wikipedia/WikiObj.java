@@ -17,12 +17,12 @@ public class WikiObj {
 	public WikiObj(String wikiURL)
 	{
 		this.theWiki = new Wiki(wikiURL);
-		/*try {
+		try {
 			this.theWiki.getScriptPath();
 		} catch (Exception e) {
 			System.out.println("Couldn't find script path, assuming blank");
 			this.theWiki = new Wiki(wikiURL, "");
-		}*/
+		}
 	}
 	
 	public WikiObj(String wikiURL, String scriptPath)
@@ -31,10 +31,10 @@ public class WikiObj {
 	}
 	
 	//Return the content by section
-	public String sectionContent(String pageName, int sectionID)
+	public String articleContent(String pageName)
 	{
 		try {
-			return theWiki.getSectionText(pageName, sectionID);
+			return theWiki.getRenderedText(pageName);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -45,7 +45,7 @@ public class WikiObj {
 	public String content(String pageName)
 	{
 		try {
-			return theWiki.getPageText(pageName);
+			return theWiki.getRenderedText(pageName);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;

@@ -13,8 +13,20 @@
 	<section name="JavaSearchPage">
 		<item value="false" key="CASE_SENSITIVE"/>
 		<item value="11" key="INCLUDE_MASK"/>
-		<item value="1" key="HISTORY_SIZE"/>
+		<item value="2" key="HISTORY_SIZE"/>
 		<section name="HISTORY0">
+			<item value="11" key="includeMask"/>
+			<item value="2" key="limitTo"/>
+			<item value="0" key="scope"/>
+			<item value="=Neuromancer/C:\/Program Files\/Java\/jre7\/lib\/rt.jar&lt;java.lang(Thread.class[Thread~sleep~J" key="javaElement"/>
+			<item value="java.lang.Thread.sleep(long)" key="pattern"/>
+			<item value="0" key="matchLocations"/>
+			<item value="1" key="searchFor"/>
+			<item value="true" key="isCaseSensitive"/>
+			<list key="workingSets">
+			</list>
+		</section>
+		<section name="HISTORY1">
 			<item value="11" key="includeMask"/>
 			<item value="2" key="limitTo"/>
 			<item value="0" key="scope"/>
@@ -35,6 +47,8 @@
 	</section>
 	<section name="ClasspathContainerSelectionPage">
 		<item value="3" key="index"/>
+	</section>
+	<section name="BreadcrumbItemDropDown">
 	</section>
 	<section name="NewPackageWizardPage">
 		<item value="false" key="create_package_info_java"/>
@@ -58,6 +72,8 @@
 		</section>
 	</section>
 	<section name="completion_proposal_size">
+		<item value="353" key="size.x"/>
+		<item value="252" key="size.y"/>
 	</section>
 	<section name="JavaElementSearchActions">
 	</section>

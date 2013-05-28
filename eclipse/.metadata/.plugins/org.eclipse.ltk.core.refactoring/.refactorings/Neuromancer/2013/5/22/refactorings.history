@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Extract local variable &apos;objectInputStream&apos; from expression &apos;new ObjectInputStream(new FileInputStream(new File(toLoad)))&apos;&#x0D;&#x0A;- Original project: &apos;Neuromancer&apos;&#x0D;&#x0A;- Variable name: &apos;objectInputStream&apos;&#x0D;&#x0A;- Destination method: &apos;wintermute.data.DataSet.load()&apos;&#x0D;&#x0A;- Variable expression: &apos;new ObjectInputStream(new FileInputStream(new File(toLoad)))&apos;&#x0D;&#x0A;- Replace occurrences of expression with variable" description="Extract local variable &apos;objectInputStream&apos;" final="false" id="org.eclipse.jdt.ui.extract.temp" input="/src&lt;wintermute.data{DataSet.java" name="objectInputStream" replace="true" selection="535 60" stamp="1369670597012" version="1.0"/>
+</session>
