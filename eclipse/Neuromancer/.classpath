@@ -2,27 +2,20 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/commons-codec-1.8.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/gson-2.2.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/httpclient-4.2.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/httpcore-4.2.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/jaudiotagger-2.2.0-20130321.142353-1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/javaFlacEncoder-0.3.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/javazoom.zip"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/jEN.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/json_simple-1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/junit-4.8.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/restfb-1.6.12.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/batik-1.7/batik.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files (x86)/Java/jre7/lib/jfxrt.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/jflac-1.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/jintellitype-1.3.8.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/C:/Users/Andrew/Downloads/jintellitype-1.3.8/jintellitype-1.3.8-javadoc/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/jsoup-1.7.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/org.urbanstew.soundcloudapi-1.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre7/lib/jfxrt.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/Libraries/commons-codec-1.8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/Libraries/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/Libraries/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/Libraries/httpclient-4.2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/Libraries/httpcore-4.2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/Libraries/jaudiotagger-2.2.0-20130321.142353-1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/Libraries/javaFlacEncoder-0.3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/Libraries/jflac-1.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/Libraries/jintellitype-1.3.8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/Libraries/json_simple-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/Libraries/jsoup-1.7.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/Libraries/junit-4.8.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/Libraries/restfb-1.6.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Documents/GitHub/Neuromancer/Libraries/batik-1.7/batik.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
